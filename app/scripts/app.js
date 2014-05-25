@@ -6,7 +6,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('App', ['ionic', 'App.controllers'])
+angular.module('App', ['ionic', 'App.controllers', 'App.services', 'ngRoute', 'angucomplete', 'angularLocalStorage'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -15,54 +15,57 @@ angular.module('App', ['ionic', 'App.controllers'])
     }
   });
 })
-
+.controller('AppCtrl', ['$rootScope',function($rootScope) {
+}])
 .config(function($stateProvider, $urlRouterProvider) {
+  // $rootScope.listsKey = "GroceryLists";
+  // $rootScope.itemsKey = "GroceryListItems";
   $stateProvider
-
     .state('app', {
       url: '/app',
       abstract: true,
-      templateUrl: 'templates/menu.html',
+      templateUrl: 'views/menu.html',
       controller: 'AppCtrl'
     })
-
-    .state('app.search', {
-      url: '/search',
+    .state('app.newlist', {
+      url: '/newlist',
       views: {
         'menuContent' :{
-          templateUrl: 'templates/search.html'
+          templateUrl: 'views/newlist.html',
+          controller: 'NewlistCtrl',
         }
       }
     })
-
-    .state('app.browse', {
-      url: '/browse',
+    .state('app.mylists', {
+      url: '/mylists',
       views: {
         'menuContent' :{
-          templateUrl: 'templates/browse.html'
+          templateUrl: 'views/mylists.html',
+          controller: 'MylistsCtrl',
         }
       }
     })
-    .state('app.playlists', {
-      url: '/playlists',
+    .state('app.listItem', {
+      url: '/list/:listId/item/:itemId',
       views: {
         'menuContent' :{
-          templateUrl: 'templates/playlists.html',
-          controller: 'PlaylistsCtrl'
+          templateUrl: 'views/list-item.html',
+          controller: 'ListItemCtrl',
         }
       }
     })
-
-    .state('app.single', {
-      url: '/playlists/:playlistId',
+    .state('app.list', {
+      url: '/list/:listId',
       views: {
         'menuContent' :{
-          templateUrl: 'templates/playlist.html',
-          controller: 'PlaylistCtrl'
+          templateUrl: 'views/list.html',
+          controller: 'ListCtrl',
         }
       }
-    });
+    })
+    ;
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/playlists');
+  
+  $urlRouterProvider.otherwise('/app/mylists');
 });
 

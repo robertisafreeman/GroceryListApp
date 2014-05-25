@@ -1,0 +1,26 @@
+<ion-view title="{{list.name}}">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+    
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+  	<button class="button button-icon icon ion-plus-round pull right" ng-click="newItem()"></button>
+  </ion-nav-buttons>
+  <ion-content class="has-header">
+  	<ion-list class='list '>
+		<a ng-repeat="item in list.items track by $index" class='item item-icon-right' href="#/app/list/{{list.id}}/item/{{item.id}}">
+			<span ng-class='{found: strike, found: subtle-text}'>
+				<span class='padding-right'>
+					<span class='large-text subtle-text'>3</span>
+					<span class='subtle-text'>cups</span>
+				</span>
+				<span class='medium-text'>
+					{{item.name}}	
+				</span>
+			</span>
+			<i class='icon ion-chevron-right icon-accessory'></i>
+		</a>
+	</ion-list>
+  </ion-content>
+
+</ion-view>
