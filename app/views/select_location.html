@@ -1,0 +1,41 @@
+<ion-view title="{{myLocation.location.name}}">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+	<a ng-click="goBack()"><button class="button button-icon icon ion-chevron-left"></button></a>
+  </ion-nav-buttons>
+  <ion-content class="has-header">
+  	<ion-list class='list '>
+      <ion-item class="item item-divider">
+          My Location
+      </ion-item>
+  		<ion-item class="item item-avatar" ng-href='#/app/selectlocation'>
+  			<img src="{{myLocation.location.icon}}">
+     		<p>{{myLocation.location.name}} <br />
+          <span class='subtle-text small-text'>
+            {{myLocation.location.vicinity}}
+          </span>
+        </p>
+        
+      </ion-item>
+      <ion-item class="item item-checkbox">
+        <label class="checkbox">
+           <input type="checkbox" ng-model='myLocation.automatic'>
+         </label>
+         Automatic
+      </ion-item>
+      <ion-item class="item item-divider">
+          Other Locations
+      </ion-item>
+      <ion-item class="item item-avatar" ng-repeat='location in locations' ng-click="setLocation(location)">
+        <img src="{{location.icon}}">
+        <p>{{location.name}}<br />
+          <span class='subtle-text small-text'>
+            {{location.vicinity}}
+          </span></p>
+      </ion-item>
+	</ion-list>
+  </ion-content>
+
+</ion-view>

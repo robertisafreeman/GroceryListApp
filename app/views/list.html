@@ -1,20 +1,33 @@
 <ion-view title="{{list.name}}">
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
-    
   </ion-nav-buttons>
   <ion-nav-buttons side="right">
-  	<button class="button button-icon icon ion-plus-round pull right" ng-click="newItem()"></button>
+	<a ng-href='#/app/mylists'><button class="button button-icon icon ion-chevron-left"></button></a>
   </ion-nav-buttons>
   <ion-content class="has-header">
   	<ion-list class='list '>
-		<a ng-repeat="item in list.items track by $index" class='item item-icon-right' href="#/app/list/{{list.id}}/item/{{item.id}}">
-			<span ng-class='{found: strike, found: subtle-text}'>
-				<span class='padding-right'>
-					<span class='large-text subtle-text'>3</span>
-					<span class='subtle-text'>cups</span>
+  		<ion-item class="item item-avatar item-icon-right" ng-href='#/app/selectlocation'>
+  			<img src="{{myLocation.location.icon}}">
+     		<p>
+     			<span class='medium-text'>{{myLocation.location.name}}</span>
+     			<br />
+				<span class='subtle-text small-text' ng-show='myLocation.automatic'>Automatically Selected</span>
+				<span class='subtle-text small-text' ng-hide='myLocation.automatic'>Manually Selected</span>
+     		</p>
+			
+     		<i class="icon ion-chevron-right icon-accessory" ></i>
+  		</ion-item>
+  		<ion-item  class='item item-icon-right' ng-click="newItem()">
+  			New Item<i class="icon ion-plus-round icon-accessory" ></i>
+  		</ion-item>
+		<a ng-repeat="item in list.items track by $index" class='item item-icon-right' hm-swipe="crosssOff(item, $event)" hm-swipe="crosssOff(item, $event)" href="#/app/list/{{list.id}}/item/{{item.id}}">
+			<span>
+				<span ng-class='{strike: item.found, "subtle-text":item.found}'>
+					<span class='large-text subtle-text' ng-class='{"medium-text":item.found}'>{{item.qty}}</span>
+					<span class='subtle-text' ng-class='{"medium-text":item.found}' >{{item.qtyType}}</span>
 				</span>
-				<span class='medium-text'>
+				<span class='medium-text' ng-class='{strike: item.found, "subtle-text":item.found}'>
 					{{item.name}}	
 				</span>
 			</span>

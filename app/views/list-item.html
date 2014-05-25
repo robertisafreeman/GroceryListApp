@@ -1,10 +1,10 @@
-<ion-view title="{{list.name}}">
+<ion-view title="{{item.name}}">
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     
   </ion-nav-buttons>
   <ion-nav-buttons side="right">
-  	<ion-nav-back-button class="button-clear"><i class="icon ion-chevron-left"></i> Back</ion-nav-back-button>
+  	<a ng-href='#/app/list/{{listId}}'><i class="button button-icon icon ion-chevron-left"></i></a>
   </ion-nav-buttons>
   <ion-content class="has-header">
   	<ion-list class='list '>
@@ -26,17 +26,12 @@
 		 <ion-item class='item-input-inset'>
 		     <div class="input-label">Quantity Type:</div>
 			    <span class="item item-input">
-			    	<!-- <input ng-model='item.unitType' type='text' placeholder='Quantity type:'> -->
-			    	<angucomplete id="ex1"
-			              placeholder="Search countries"
-			              pause="100"
-			              selectedobject="selectedCountry"
-			              localdata="countries"
-			              searchfields="name"
-			              titlefield="name"
-			              minlength="1"
-			              inputclass="form-control form-control-small"/>
+			    	<input ng-model='item.qtyType' type='text' placeholder='Quantity type:'>
 			    </span>
+		 </ion-item>
+		 <!-- Delete Item -->
+		 <ion-item class='item-input-inset'>
+		     <button class='button button-assertive button-full' ng-click="deleteItem()">Delete {{item.name}}</button>
 		 </ion-item>
 	</ion-list>
   </ion-content>

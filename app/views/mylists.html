@@ -4,7 +4,8 @@
   </ion-nav-buttons>
   <ion-content class="has-header">
   	<ion-list>
-		<ion-item ng-href='#/app/list/{{list.id}}' ng-repeat="list in lists">
+		<ion-item ng-href='#/app/list/{{list.id}}' ng-repeat="list in lists" class='item-icon-left'>
+    <button class="button ion-edit button-icon icon icon-accessory" ng-click='editName(list, $event)'> </button> 
 		{{list.name}}
 		</ion-item>
 		</ion-list>

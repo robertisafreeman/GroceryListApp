@@ -6,7 +6,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('App', ['ionic', 'App.controllers', 'App.services', 'ngRoute', 'angucomplete', 'angularLocalStorage'])
+angular.module('App', ['ionic', 'App.controllers', 'App.services', 'ngRoute', 'angucomplete', 'angularLocalStorage', 'hmTouchEvents'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -15,7 +15,7 @@ angular.module('App', ['ionic', 'App.controllers', 'App.services', 'ngRoute', 'a
     }
   });
 })
-.controller('AppCtrl', ['$rootScope',function($rootScope) {
+.controller('AppCtrl', [function() {
 }])
 .config(function($stateProvider, $urlRouterProvider) {
   // $rootScope.listsKey = "GroceryLists";
@@ -60,6 +60,15 @@ angular.module('App', ['ionic', 'App.controllers', 'App.services', 'ngRoute', 'a
         'menuContent' :{
           templateUrl: 'views/list.html',
           controller: 'ListCtrl',
+        }
+      }
+    })
+    .state('app.selectlocation', {
+      url: '/selectlocation',
+      views: {
+        'menuContent' :{
+          templateUrl: 'views/select_location.html',
+          controller: 'SelectLocationCtrl',
         }
       }
     })
