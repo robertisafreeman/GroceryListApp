@@ -15,7 +15,8 @@ angular.module('App', ['ionic', 'App.controllers', 'App.services', 'ngRoute', 'a
     }
   });
 })
-.controller('AppCtrl', [function() {
+.controller('AppCtrl', ['$ionicSideMenuDelegate',function($ionicSideMenuDelegate) {
+  $ionicSideMenuDelegate.canDragContent(false)
 }])
 .config(function($stateProvider, $urlRouterProvider) {
   // $rootScope.listsKey = "GroceryLists";

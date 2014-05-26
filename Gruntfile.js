@@ -307,14 +307,17 @@ module.exports = function (grunt) {
     //   }
     // },
     uglify: {
-      dist: {
-         mangle: false,
-        files: {
-          'www/<%= yeoman.scripts %>/scripts.js': [
-            'www/<%= yeoman.scripts %>/scripts.js'
-          ]
-        }
+      options: {
+        report: 'min',
+        mangle: false
       }
+      // dist: {
+      //   files: {
+      //     'www/<%= yeoman.scripts %>/scripts.js': [
+      //       'www/<%= yeoman.scripts %>/scripts.js'
+      //     ]
+      //   }
+      // }
     },
     // concat: {
     //   dist: {}

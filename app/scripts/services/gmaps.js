@@ -31,6 +31,7 @@ angular.module('App.services')
     		};
 
     		var onError = function(error) {
+                consle.log("Error getting location", error);
     		    alert(error);
     		};
 
