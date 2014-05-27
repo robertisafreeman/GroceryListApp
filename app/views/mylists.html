@@ -4,9 +4,10 @@
   </ion-nav-buttons>
   <ion-content class="has-header">
   	<ion-list>
-		<ion-item ng-href='#/app/list/{{list.id}}' ng-repeat="list in lists" class='item-icon-left'>
-    <button class="button ion-edit button-icon icon icon-accessory" ng-click='editName(list, $event)'> </button> 
-		{{list.name}}
+		<ion-item ng-href='#/app/list/{{list.id}}' ng-repeat="list in lists" class='item item-icon-left item-icon-right'>
+      <i class=" ion-edit icon icon-accessory" ng-click='editName(list, $event)'> </i> 
+  		{{list.name}}
+      <i class='icon icon-accessory ion-chevron-right'></i>
 		</ion-item>
 		</ion-list>
   </ion-content>

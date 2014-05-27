@@ -4,7 +4,10 @@ angular.module('App.controllers')
 function ($scope, storage, storageKeys, $ionicPopup) {
 	$scope.lists = storage.get(storageKeys.listsKey);
 	storage.bind($scope,'lists', {defaultValue: {}, storeName: storageKeys.listsKey});
-	if(typeof $scope.lists == 'undefined') $scope.lists = ['test']
+	if(typeof $scope.lists === 'undefined'){
+		$scope.lists = [];
+	}
+
 	$scope.editName = function(list, e){
 		e.preventDefault();
 		$ionicPopup.prompt({
@@ -22,5 +25,5 @@ function ($scope, storage, storageKeys, $ionicPopup) {
 		 	
 		 });
 		 return false;
-	}
+	};
 }]);

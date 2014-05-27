@@ -21,19 +21,22 @@
   		<ion-item  class='item item-icon-right' ng-click="newItem()">
   			New Item<i class="icon ion-plus-round icon-accessory" ></i>
   		</ion-item>
-		<a ng-repeat="item in list.items track by $index" class='item item-icon-right' hm-swipe="crosssOff(item, $event)" hm-swipe="crosssOff(item, $event)" href="#/app/list/{{list.id}}/item/{{item.id}}">
-			<span>
-				<span ng-class='{strike: item.found, "subtle-text":item.found}'>
-					<span class='large-text subtle-text' ng-class='{"medium-text":item.found}'>{{item.qty}}</span>
-					<span class='subtle-text' ng-class='{"medium-text":item.found}' >{{item.qtyType}}</span>
+  		<span ng-repeat="aisle in aisles track by $index" >
+	  		<div class="item item-divider" >
+			    <span ng-show='aisle.key !== "Unknown"'>On </span> {{aisle.key}}
+			</div>
+			<!--  -->
+			<ion-item ng-repeat="item in list.items track by $index" class='item-icon-left item item-icon-right' ng-href="#/app/list/{{list.id}}/item/{{item.id}}" >
+				<span ng-class='{"ion-ios7-circle-outline":!item.found, "subtle-text":item.found, "ion-ios7-checkmark-outline": item.found}'class='icon item-icon listCheck ' ng-click="crossOff(item, $event)"></span>
+				<span ng-class='{"subtle-text":item.found}'>{{item.name}}</span>
+				<span class='pull-right'>
+					<span class=' subtle-text'>{{item.qty}}</span>
+					<span class='subtle-text'>{{item.qtyType}}</span>
 				</span>
-				<span class='medium-text' ng-class='{strike: item.found, "subtle-text":item.found}'>
-					{{item.name}}	
-				</span>
-			</span>
-			<i class='icon ion-chevron-right icon-accessory'></i>
-		</a>
-	</ion-list>
+				<i class='icon ion-chevron-right icon-accessory'></i>
+			</ion-item>
+		</span>
+	</ion-list>	
   </ion-content>
 
 </ion-view>

@@ -9,26 +9,20 @@
   <ion-content class="has-header">
   	<ion-list class='list '>
   		<!-- Item name -->
-  		<ion-item class='item-input-inset'>
-  			   <div class="input-label">Name:</div>
-  			   <span class="item item-input">
-  			   		<input type="text" ng-model='item.name' placeholder='Item Name'>
-  			   </span>
-		 </ion-item>
+		 <label class="item item-input">
+	        <span class="input-label text-right">Item Name:</span>
+	        <input type="text" ng-model='item.name' placeholder='Item Name'>
+	      </label>
 		 <!-- Quantity -->
-		 <ion-item class='item-input-inset'>
-			    <div class="input-label">Quantity:</div>
-			    <span class="item item-input">
-			    	<input ng-model='item.qty' type='Number' placeholder='Quantity'>
-			    </span>
-		 </ion-item>
+		 <label class="item item-input">
+	        <span class="input-label  text-right">Quantity:</span>
+	        <input ng-model='item.qty' type='Number' placeholder='Quantity'>
+	      </label>
 		 <!-- Quantity type -->
-		 <ion-item class='item-input-inset'>
-		     <div class="input-label">Quantity Type:</div>
-			    <span class="item item-input">
-			    	<input ng-model='item.qtyType' type='text' placeholder='Quantity type:'>
-			    </span>
-		 </ion-item>
+	      <label class="item item-input">
+	        <span class="input-label text-right">Quantity Type:</span>
+	        <input ng-model='item.qtyType' type='text' placeholder='Enter Quantity Type'>
+	      </label>
 		 <!-- Delete Item -->
 		 <ion-item class='item-input-inset'>
 		     <button class='button button-assertive button-full' ng-click="deleteItem()">Delete {{item.name}}</button>

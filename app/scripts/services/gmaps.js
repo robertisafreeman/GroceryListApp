@@ -2,8 +2,8 @@
 
 angular.module('App.services')
   .service('gmaps', ['$http', '$q', function Gmaps($http, $q) {
-  	var apiKey = "AIzaSyCEzTx6QcQ0JzHkzoyFnFVEzGAtbBKgyok";
-
+  	var apiKey = 'AIzaSyCEzTx6QcQ0JzHkzoyFnFVEzGAtbBKgyok';
+    var lon, lat;
     return {
     	setLon:function(longitude){
     		lon = longitude;
@@ -13,8 +13,6 @@ angular.module('App.services')
     	},
     	nearbyStores: function(){
     		var ret = $q.defer();
-    		var lon,lat;
-    		console.log('getting location');
     		var onSuccess = function(position) {
     		    // alert('Latitude: '          + position.coords.latitude          + '\n' +
     		    //       'Longitude: '         + position.coords.longitude         + '\n' +
@@ -26,30 +24,28 @@ angular.module('App.services')
     		    //       'Timestamp: '         + position.timestamp                + '\n');
     		    lat = position.coords.latitude;
     		    lon = position.coords.longitude;
-    		    console.log('got location', position);
     		    ret.resolve(position);
     		};
 
     		var onError = function(error) {
-                consle.log("Error getting location", error);
-    		    alert(error);
+                console.log('Error getting location', error);
+    		    // alert(error);
     		};
 
     		navigator.geolocation.getCurrentPosition(onSuccess, onError);
     		return ret.promise.then(function(){
-    			var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
-    						+'rankby=distance'
-    						+'&types=grocery_or_supermarket'
-    						+'&location='+lat+','+lon
-    						// +'&radius=500&'
-    						+'&sensor=false'
-    						+'&key='+apiKey;
-    			console.log(url)
+    			var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'+
+    						'rankby=distance'+
+    						'&types=grocery_or_supermarket'+
+    						'&location='+lat+','+lon+
+    						// +'&radius=500&'+
+    						'&sensor=false'+
+    						'&key='+apiKey;
 	    			return $http({
 		    			method: 'GET',
 		    			url: url
 		    		});
 	    		});
     	}
-    }
+    };
   }]);

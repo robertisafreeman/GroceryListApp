@@ -6,7 +6,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('App', ['ionic', 'App.controllers', 'App.services', 'ngRoute', 'angucomplete', 'angularLocalStorage', 'hmTouchEvents'])
+angular.module('App', ['ionic', 'App.controllers', 'App.services', 'ngRoute', 'angucomplete', 'angularLocalStorage', 'hmTouchEvents', 'firebase'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -16,11 +16,9 @@ angular.module('App', ['ionic', 'App.controllers', 'App.services', 'ngRoute', 'a
   });
 })
 .controller('AppCtrl', ['$ionicSideMenuDelegate',function($ionicSideMenuDelegate) {
-  $ionicSideMenuDelegate.canDragContent(false)
+  $ionicSideMenuDelegate.canDragContent(false);
 }])
 .config(function($stateProvider, $urlRouterProvider) {
-  // $rootScope.listsKey = "GroceryLists";
-  // $rootScope.itemsKey = "GroceryListItems";
   $stateProvider
     .state('app', {
       url: '/app',
