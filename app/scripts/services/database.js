@@ -11,29 +11,20 @@ angular.module('App.services')
       store: function(location){
         console.log(location);
         var storeKey = this.storeKeyFromLocation(location);
+        if(!storeKey) return;
         // var store; 
-        if(!stores[storeKey]){
-          stores[storeKey] = {meta: location};
-          stores.$save(storeKey);
-        }
-        // console.log('retrieving', stores.$child(storeKey), storeKey);
-        return stores.$child(storeKey);
-        // try{
-        //   store = stores.$child(storeKey);
-        // } catch (e) {
-        //   console.log("creating store", e);
-        //   stores.$add(storeKey, {meta: location});
-        //   store = stores.$child(storeKey);
-        //   store.$save();
+        // if(!stores[storeKey]){
+        //   console.log(storeKey);
+        //   stores[storeKey] = {meta: location};
+        //   stores.$save(storeKey);
         // }
-        
-        // return store;
+        return stores.$child(storeKey);
       },
       stores: stores,
       storeKeyFromLocation:function(location){
+        if(!location) return false;
         var key = (location.name.replace(/\W/g, '') + ':' + location.vicinity.replace(/\W/g, '')).trim(); 
         return key;
-
       }
     };
   }]);
