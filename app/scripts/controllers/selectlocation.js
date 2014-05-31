@@ -15,9 +15,9 @@ function ($scope, storage, storageKeys, gmaps, $ionicNavBarDelegate, db) {
 	$scope.goBack = function() {
 	    $ionicNavBarDelegate.back();
 	};
-	function setLocation(){
+	function automaticLocation(){
 		gmaps.nearbyStores().then(function(results){
-			console.log(results.data.results);
+			// console.log(results.data.results);
 			$scope.locations = results.data.results;
 			if($scope.myLocation.automatic){
 				$scope.myLocation.location= results.data.results[0];
@@ -26,15 +26,18 @@ function ($scope, storage, storageKeys, gmaps, $ionicNavBarDelegate, db) {
 			
 		}, function(e){
 			console.log(e);
-			// alert("Could not get nearby stores");
 		});	
 	}
-	setLocation();
+	$scope.automaticLocation = automaticLocation;
+	var timer;
+	automaticLocation();
+	
 	
 
 
 	$scope.setLocation = function(location){
 		$scope.myLocation = {location: location, mode: 'manual'};
 		$scope.store = db.store($scope.myLocation.location);
+		window.setTimeout($scope.goBack, 3);
 	};
 }]);
