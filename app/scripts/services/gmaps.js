@@ -40,6 +40,8 @@ angular.module('App.services')
     						'&location='+lat+','+lon+
     						// +'&radius=500&'+
     						'&sensor=false'+
+                            '&opennow=true'+
+                            '&keyword=groceries'+
     						'&key='+apiKey;
 	    			return $http({
 		    			method: 'GET',
