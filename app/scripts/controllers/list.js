@@ -2,13 +2,15 @@
 /* global $ */
 angular.module('App.controllers')
 .controller('ListCtrl', 
-['$scope', 'storage', '$stateParams', '$ionicPopup', '$location', 'storageKeys', 'gmaps', '$ionicModal',
-function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ionicModal ) {
+['$scope', 'storage', '$stateParams', '$ionicPopup', '$location', 'storageKeys', 'gmaps', '$ionicModal', 'database',
+function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ionicModal, database ) {
 	$scope.lists = storage.get(storageKeys.listsKey);
 	storage.bind($scope,'lists', {defaultValue: {}, storeName: storageKeys.listsKey});
 	$scope.list = $scope.lists[sp.listId];
 	var list = $scope.list;
+
 	$scope.myLocation = storage.get(storageKeys.locationKey);
+	var remoteStore;
 	storage.bind($scope,'myLocation', {storeName: storageKeys.locationKey});
 	if(!$scope.myLocation){
 		$scope.myLocation =  {automatic: true, location:{name: 'Unknown Location'}};
@@ -17,25 +19,57 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 	if(!list.items){
 		list.items = [];
 	}
-	
+	function aisleGuess(item){
+		var bestGuess = null;
+		var itemKey = item.itemKey;
+		if(item){
+			if(remoteStore && remoteStore.items && remoteStore.items[itemKey]){
+				var remoteItem = remoteStore.items[itemKey];
+				Object.merge(item,
+					Object.reject(remoteStore.items[itemKey], ['qty', 'qtyType']),
+					false
+				);
+				if(item.qtyType === 'qty'){
+					item.qtyType = remoteItem.qtyType;
+				}
+			} 
+			if(typeof item.courseLocation === 'undefined'){
+				item.courseLocation = 'Aisle';
+			} else {
+				bestGuess = item.courseLocation;
+			}
+			if(item.courseLocation === 'Aisle') {
+				if(!item.estimatedAisle){
+					item.estimatedAisle = 'Unknown';
+				}
+				bestGuess = item.estimatedAisle;
+			}
+			if(item.qty === 1){
+				item.name = item.name.singularize();
+				item.qtyType = item.qtyType.singularize();
+			} else {
+				item.name = item.name.pluralize();
+				item.qtyType = item.qtyType.pluralize();
+			}
+		}
+
+		return bestGuess;
+	}
 	function updateAisles(){
 		var found = {};
 		var aisles = [];
 		for (var i = 0; i < list.items.length; i++) {
 			var item =  list.items[i];
 			if(item){
-				if(typeof item.courseLocation !== 'undefined'){
-					item.courseLocation = item.courseLocation;
-					if(item.courseLocation !== 'Aisle'){
-						item.estimatedAisle = item.courseLocation;	
-					} 
-				} else {
-					item.courseLocation = 'Aisle';
-					item.estimatedAisle = 'Unknown';
-				}
-				var itemAisle =item.estimatedAisle;
+				item.bestGuess = aisleGuess(item);
+				var itemAisle = item.bestGuess;
 				if(!found[itemAisle]){
-					found[itemAisle] = {key: itemAisle, num: 1};
+					var prettyKey = typeof itemAisle === 'number'? 'Aisle '+String(itemAisle): itemAisle;
+					found[itemAisle] = {
+						key: itemAisle,
+						prettyKey:prettyKey.spacify().titleize(),
+						num: 1
+					};
 					aisles.push(found[itemAisle]);
 				}
 				else{
@@ -76,21 +110,13 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 		// Execute action
 	});
 	$scope.crossOff = function(item, e){
-			// console.log('target', $(e.currentTarget).hasClass('listCheck'))
 		if($(e.currentTarget).hasClass('listCheck')){
 			e.preventDefault();
 			$scope.lastItem = item;
-			if(!$scope.lastItem.aisle){
-				$scope.lastItem.aisle = 0;
-			} 
 			item.found = !item.found;
-			// This is weird
 			if(item.found){
 				$scope.modal.show();
-				// $scope.closeModal = function() {
-				// 	$scope.modal.hide();
-				// };
-			}	
+			}
 		}
 	};
 	$scope.newItem = function(){
@@ -104,8 +130,17 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 		    // okType: // String (default: 'button-positive'). The type of the OK button.
 		 }).then(function(itemName) {
 		 	if(itemName){
-		 		var item = {name: itemName, id: $scope.list.items.length, qty: 1, qtyType: 'qty', found:false};
+		 		itemName = itemName.trim().titleize().singularize();
+		 		var item = {
+		 			name: itemName,
+		 			id: $scope.list.items.length,
+		 			qty: 1,
+		 			qtyType: '',
+		 			found:false,
+		 			itemKey: itemName.toLowerCase().replace(/\s/g, '')
+		 		};
 		   		$scope.list.items.push(item);
+
 		   		updateAisles();
 		 	}
 		 	
@@ -116,49 +151,46 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 	};
 	$scope.updateItemLocation = function(){
 		$scope.modal.hide();
+		var li = $scope.lastItem;
+		console.log("Updated item", $scope.lastItem);
+		// li.bestGuess = aisleGuess(li);
+		if(!remoteStore.items){
+			remoteStore.items = {};
+			remoteStore.$save('items');	
+		}
+		
+		var items = remoteStore.$child('items');
+		items[$scope.lastItem.itemKey] = Object.reject($scope.lastItem, ['id', 'found', 'qty']);
+		items.$save($scope.lastItem.itemKey);
+		console.log("Updated item", $scope.lastItem);
 		updateAisles();
 	};
 	function setLocation(){
 		gmaps.nearbyStores().then(function(results){
 			$scope.myLocation.location = results.data.results[0];
 			$scope.myLocation.location = results.data.results[0];
+			remoteStore = database.store($scope.myLocation.location);
+			remoteStore.$on('loaded', function(){
+				updateAisles();
+				// remoteStore.$bind($scope, 'myLocation');
+			});
+			
 		}, function(){
 			// alert("Could not get nearby stores")
 		});
 	}
 	if($scope.myLocation.automatic){
 		setLocation();
-	}
-	if($scope.myLocation.automatic){
-		// select closest location every 3 minutes
+		// select closest location every 5 minutes
 		window.setInterval(setLocation, 300000);
 	}
 }]);
 angular.module('App.controllers').filter('byAisle', function() {
- 	// function searchForKey(arr, key){
- 	// 	for (var i = 0; i < arr.length; i++) {
- 	// 		console.log("searcher");
- 	// 		console.log(arr[i].name, arr[i].courseLocation, arr[i].estimatedAisle, key)
- 	// 		if(arr[i].courseLocation === key || arr[i].estimatedAisle === key){
- 	// 			console.log("true");
- 	// 			return true;
- 	// 		}
- 	// 	};
- 	// 	return false;
- 	// }
-  return function(input, aisle) {
-
-  	// console.log("Filtering", item, aisle);
-  	var ret = [];
-  	for (var i = 0; i < input.length; i++) {
-  		var item = input[i];
-  		if(item.courseLocation === aisle || item.estimatedAisle === aisle){
-  			ret.push(item);
-  		}
-  	}
-  	// console.log("aisle filter", aisle, ret);
-    return ret;
-  };
+	return function(input, listedAisle) {
+		return input.filter(function(item){
+			return item && item.bestGuess === listedAisle;
+		});
+	};
 });
 angular.module('App.controllers').filter('orderObjectBy', function(){
  return function(input, attribute) {
