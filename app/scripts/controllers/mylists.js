@@ -1,11 +1,17 @@
 'use strict';
 angular.module('App.controllers')
-.controller('MylistsCtrl', ['$scope', 'storage', 'storageKeys', '$ionicPopup',
-function ($scope, storage, storageKeys, $ionicPopup) {
+.controller('MylistsCtrl', ['$scope', 'storage', 'storageKeys', '$ionicPopup', '$location',
+function ($scope, storage, storageKeys, $ionicPopup, $location) {
 	$scope.lists = storage.get(storageKeys.listsKey);
-	storage.bind($scope,'lists', {defaultValue: {}, storeName: storageKeys.listsKey});
+	storage.bind($scope,'lists', {defaultValue: [], storeName: storageKeys.listsKey});
 	if(typeof $scope.lists === 'undefined'){
 		$scope.lists = [];
+	}
+	console.log("listLength", $scope.lists.length);
+	if($scope.lists.length === 0){
+		window.setTimeout(function(){
+			$location.path('/app/newlist');
+		}, 2);
 	}
 
 	$scope.editName = function(list, e){
@@ -15,9 +21,7 @@ function ($scope, storage, storageKeys, $ionicPopup) {
 		   inputType: 'text',
 		   inputPlaceholder: 'List Name',
 		   cancelText: 'Cancel',
-		    // cancelType: // String (default: 'button-default'). The type of the Cancel button.
-		    okText: 'Change Name'// String (default: 'OK'). The text of the OK button.
-		    // okType: // String (default: 'button-positive'). The type of the OK button.
+		   okText: 'Change Name'
 		 }).then(function(name) {
 		 	if(name){
 		 		list.name = name;
