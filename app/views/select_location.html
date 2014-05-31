@@ -21,7 +21,8 @@
       </ion-item>
       <ion-item class="item item-checkbox">
         <label class="checkbox">
-           <input type="checkbox" ng-model='myLocation.automatic'>
+           <input type="checkbox" ng-change="automaticLocation()" ng-model='myLocation.automatic'>
+
          </label>
          Automatic
       </ion-item>
