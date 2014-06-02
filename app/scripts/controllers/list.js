@@ -19,6 +19,16 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 	if(!list.items){
 		list.items = [];
 	}
+	$scope.storeType = storage.get(storageKeys.locationType);
+	storage.bind($scope,'storeType', {storeName: storageKeys.locationType});
+	if($scope.storeType.isBlank()){
+		$scope.storeType = $scope.storeTypes[0];
+	}
+	$scope.keywords = storage.get(storageKeys.locationKeyword);
+	storage.bind($scope,'keywords', {storeName: storageKeys.locationKeyword});
+	if($scope.keywords.isBlank()){
+		$scope.keywords = "";
+	}
 	function aisleGuess(item){
 		var bestGuess = null;
 		var itemKey = item.itemKey;
@@ -166,13 +176,12 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 		updateAisles();
 	};
 	function setLocation(){
-		gmaps.nearbyStores().then(function(results){
+		gmaps.nearbyStores($scope.storeType, $scope.keywords).then(function(results){
 			$scope.myLocation.location = results.data.results[0];
 			$scope.myLocation.location = results.data.results[0];
 			remoteStore = database.store($scope.myLocation.location);
 			remoteStore.$on('loaded', function(){
 				updateAisles();
-				// remoteStore.$bind($scope, 'myLocation');
 			});
 			
 		}, function(){

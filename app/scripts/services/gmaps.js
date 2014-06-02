@@ -11,7 +11,12 @@ angular.module('App.services')
     	setLat:function(latitude){
     		lat = latitude;
     	},
-    	nearbyStores: function(){
+    	nearbyStores: function(type, keyword){
+            type = type || 'grocery_or_supermarket';
+            if(type =='search' && keyword.isBlank()){
+                keyword = 'store';
+            }
+            console.log("Checking for type", type, keyword);
     		var ret = $q.defer();
     		var onSuccess = function(position) {
     		    // alert('Latitude: '          + position.coords.latitude          + '\n' +
@@ -34,15 +39,19 @@ angular.module('App.services')
 
     		navigator.geolocation.getCurrentPosition(onSuccess, onError);
     		return ret.promise.then(function(){
+
     			var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'+
-    						'rankby=distance'+
-    						'&types=grocery_or_supermarket'+
-    						'&location='+lat+','+lon+
-    						// +'&radius=500&'+
-    						'&sensor=false'+
+    						'rankby=distance';
+                if(keyword && !keyword.isBlank()){
+                    url+= '&keyword='+keyword;
+                } else {
+                    url+= '&types='+type;
+                }
+                            
+                url+=       '&location='+lat+','+lon+
+                            '&sensor=true'+
                             '&opennow=true'+
-                            '&keyword=groceries'+
-    						'&key='+apiKey;
+                            '&key='+apiKey;    				
 	    			return $http({
 		    			method: 'GET',
 		    			url: url

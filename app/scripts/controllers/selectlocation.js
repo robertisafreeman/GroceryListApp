@@ -10,13 +10,37 @@ function ($scope, storage, storageKeys, gmaps, $ionicNavBarDelegate, db) {
 	}
 	storage.bind($scope,'myLocation', {storeName: storageKeys.locationKey});
 
-
+	$scope.storeTypes = [
+	'grocery_or_supermarket',
+	'convenience_store',
+	'department_store',
+	'electronics_store',
+	'furniture_store',
+	'home_goods_store',
+	'pet_store',
+	'shoe_store',
+	'shopping_mall',
+	'liquor_store',
+	'search'
+	];
+	$scope.storeType = storage.get(storageKeys.locationType);
+	storage.bind($scope,'storeType', {storeName: storageKeys.locationType});
+	if($scope.storeType.isBlank()){
+		$scope.storeType = $scope.storeTypes[0];
+	}
+	$scope.keywords = storage.get(storageKeys.locationKeyword);
+	storage.bind($scope,'keywords', {storeName: storageKeys.locationKeyword});
+	if($scope.keywords.isBlank()){
+		$scope.keywords = "";
+	}
+	console.log($scope.keywords);
 
 	$scope.goBack = function() {
 	    $ionicNavBarDelegate.back();
 	};
 	function automaticLocation(){
-		gmaps.nearbyStores().then(function(results){
+		gmaps.nearbyStores($scope.storeType, $scope.keywords).then(function(results){
+
 			// console.log(results.data.results);
 			$scope.locations = results.data.results;
 			if($scope.myLocation.automatic){
@@ -29,7 +53,6 @@ function ($scope, storage, storageKeys, gmaps, $ionicNavBarDelegate, db) {
 		});	
 	}
 	$scope.automaticLocation = automaticLocation;
-	var timer;
 	automaticLocation();
 	
 	
