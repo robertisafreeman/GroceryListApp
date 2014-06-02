@@ -41,17 +41,19 @@ angular.module('App.services')
     		return ret.promise.then(function(){
 
     			var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'+
-    						'rankby=distance';
+    						'rankby=prominence'+
+                            '&radius=50000';
                 if(keyword && !keyword.isBlank()){
                     url+= '&keyword='+keyword;
-                } else {
+                }
+                if(type && !type.isBlank()){
                     url+= '&types='+type;
                 }
-                            
-                url+=       '&location='+lat+','+lon+
+                    url+=   '&location='+lat+','+lon+
                             '&sensor=true'+
                             '&opennow=true'+
-                            '&key='+apiKey;    				
+                            '&key='+apiKey;
+                    console.log(url);			
 	    			return $http({
 		    			method: 'GET',
 		    			url: url
