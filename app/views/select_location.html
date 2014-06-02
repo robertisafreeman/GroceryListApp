@@ -29,6 +29,18 @@
       <ion-item class="item item-divider">
           Other Locations
       </ion-item>
+      <span class="item item-select">
+        <div class="input-label"></div> <!-- Has to be here for hieght styling -->
+        <!-- Overide styles because we don't want a label taking up room -->
+        <select style='max-width: 100%; width: 100%; direction: initial; min-height: 50px' ng-model='$parent.storeType' ng-change="automaticLocation()" ng-options="type.humanize().titleize() for type in storeTypes">
+        </select>
+      </span>
+      <span ng-show="storeType == 'search'" class='item'>
+        <label class="item item-input">
+            <i class="icon ion-search placeholder-icon"></i>
+            <input type="text" placeholder="Search" ng-model='$parent.keywords' ng-change='automaticLocation()'>
+          </label>
+      </span>
       <ion-item class="item item-avatar" ng-repeat='location in locations' ng-click="setLocation(location)">
         <img src="{{location.icon}}">
         <p>{{location.name}}<br />
