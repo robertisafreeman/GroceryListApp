@@ -26,14 +26,14 @@
           {{aisle.prettyKey}}
         </div>
 			<!--  -->
-			<ion-item ng-repeat="item in list.items | byAisle:  aisle.key track by $index" class='item-icon-left item item-icon-right' ng-href="#/app/list/{{list.id}}/item/{{item.id}}" ng-show="!item.found || $parent.$parent.settings.showFound">
-				<span ng-class='{"ion-ios7-circle-outline":!item.found, "subtle-text":item.found, "ion-ios7-checkmark-outline": item.found}' class='icon large-text item-icon icon-large listCheck ' ng-click="crossOff(item, $event)"></span>
-				<span ng-class='{"subtle-text":item.found}' ng-click="crossOff(item, $event)">{{item.name}}</span>
-				<span class='pull-right'>
-					<span class=' subtle-text'>{{item.qty}}</span>
-					<span class='subtle-text'>{{item.qtyType}}</span>
-				</span>
-				<i class='icon ion-chevron-right icon-accessory'></i>
+			<ion-item ng-click="crossOff(item, $event)" ng-repeat="item in list.items | byAisle:  aisle.key track by $index" class='item-icon-left item item-icon-right'  ng-show="!item.found || $parent.$parent.settings.showFound">
+				<span ng-class='{"ion-ios7-circle-outline":!item.found, "subtle-text":item.found, "ion-ios7-checkmark-outline": item.found}' class='icon large-text item-icon icon-large listCheck '></span>
+				<span ng-class='{"subtle-text":item.found}' >{{item.name}}</span>
+				<a ng-href="#/app/list/{{list.id}}/item/{{item.id}}" class='pull-right editItem'>
+					<span class='editItem subtle-text'>{{item.qty}}</span>
+					<span class='editItem subtle-text'>{{item.qtyType}}</span>
+				</a>
+				<a ng-href="#/app/list/{{list.id}}/item/{{item.id}}" class='editItem subtle-text icon ion-ios7-compose-outline'></a>
 			</ion-item>
 		</span>
 	</ion-list>	

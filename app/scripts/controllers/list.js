@@ -22,7 +22,7 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 	$scope.storeType = storage.get(storageKeys.locationType);
 	storage.bind($scope,'storeType', {storeName: storageKeys.locationType});
 	if($scope.storeType.isBlank()){
-		$scope.storeType = $scope.storeTypes[0];
+		$scope.storeType = 'grocery_or_supermarket';
 	}
 	$scope.keywords = storage.get(storageKeys.locationKeyword);
 	storage.bind($scope,'keywords', {storeName: storageKeys.locationKeyword});
@@ -120,8 +120,9 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 		// Execute action
 	});
 	$scope.crossOff = function(item, e){
-		if($(e.currentTarget).hasClass('listCheck')){
-			e.preventDefault();
+		// console.log("currentTarget", e.target);
+		if(!$(e.target).hasClass('editItem')){
+			// e.preventDefault();
 			$scope.lastItem = item;
 			item.found = !item.found;
 			if(item.found){
@@ -180,9 +181,12 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 			$scope.myLocation.location = results.data.results[0];
 			$scope.myLocation.location = results.data.results[0];
 			remoteStore = database.store($scope.myLocation.location);
-			remoteStore.$on('loaded', function(){
-				updateAisles();
-			});
+			if(remoteStore){
+				remoteStore.$on('loaded', function(){
+					updateAisles();
+				});	
+			}
+			
 			
 		}, function(){
 			// alert("Could not get nearby stores")
