@@ -5,6 +5,9 @@ angular.module('App.services', [])
     return {
       listsKey: 'GroceryLists',
       locationKey: 'GroceryListsMyLocation',
-      itemsKey:'GroceryListItems'
+      itemsKey:'GroceryListItems',
+      locationType: 'GroceryListsLocationType',
+      locationKeyword: 'GroceryListsLocationKeywords',
+      settings: "GroceryListsSettings"
     };
   }]);
