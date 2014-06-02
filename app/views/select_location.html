@@ -35,12 +35,16 @@
         <select style='max-width: 100%; width: 100%; direction: initial; min-height: 50px' ng-model='$parent.storeType' ng-change="automaticLocation()" ng-options="type.humanize().titleize() for type in storeTypes">
         </select>
       </span>
-      <span ng-show="storeType == 'search'" class='item'>
+      <span class='item'>
         <label class="item item-input">
             <i class="icon ion-search placeholder-icon"></i>
             <input type="text" placeholder="Search" ng-model='$parent.keywords' ng-change='automaticLocation()'>
           </label>
       </span>
+      <ion-item class="item item-icon-left" ng-show='locations.length == 0' ng-href='#/app/selectlocation'>
+        <i class='icon ion-ios7-location-outline'></i>
+        <p>No Results</p>
+      </ion-item>
       <ion-item class="item item-avatar" ng-repeat='location in locations' ng-click="setLocation(location)">
         <img src="{{location.icon}}">
         <p>{{location.name}}<br />
