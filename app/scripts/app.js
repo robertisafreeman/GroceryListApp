@@ -15,8 +15,12 @@ angular.module('App', ['ionic', 'App.controllers', 'App.services', 'ngRoute', 'a
     }
   });
 })
-.controller('AppCtrl', ['$ionicSideMenuDelegate',function($ionicSideMenuDelegate) {
+.controller('AppCtrl', ['$scope', '$ionicSideMenuDelegate', 'storage', 'storageKeys', function($scope, $ionicSideMenuDelegate, storage, sk) {
   $ionicSideMenuDelegate.canDragContent(false);
+  $scope.settings = storage.get(sk.settings);
+  storage.bind($scope, 'settings', {defaultValue: {showFound: true}, storeName: sk.settings});
+
+
 }])
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider

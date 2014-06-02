@@ -1,5 +1,4 @@
 <ion-side-menus>
-
   <ion-pane ion-side-menu-content drag-content="false">
     <ion-nav-bar class="bar-positive pull-right">
       <!-- <ion-nav-back-button class="button-clear"><i class="icon ion-chevron-left"></i> Back</ion-nav-back-button> -->
@@ -19,9 +18,18 @@
         <ion-item nav-clear menu-close href="#/app/mylists">
           My Lists
         </ion-item>
-        <!-- <ion-item nav-clear menu-close href="#/app/search">
-          Search
-        </ion-item> -->
+        <ion-item nav-clear menu-close href="mailto:ericwooley@gmail.com?subject=Grocery List Feedback">
+          Send Feedback
+        </ion-item>
+        <ion-item nav-clear menu-close href="mailto:ericwooley@gmail.com?subject=Grocery List Suggestion">
+          Suggest a Feature
+        </ion-item>
+        <ion-item nav-clear>
+          <h3>Settings</h3>
+          <div>
+            <ion-toggle ng-model="settings.showFound" toggle-class="toggle-balanced">Show Found Items</ion-toggle>
+          </div>
+        </ion-item>
       </ion-list>
     </ion-content>
   </ion-side-menu>
