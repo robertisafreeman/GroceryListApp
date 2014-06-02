@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.ericwooley.grocerylister" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Grocery Lister</name>
+<widget id="com.ericwooley.grocerylist" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Free List</name>
     <description>
-        Automatically organize your grocerylist by aisle!
+        Automatically organize your grocerylist by aisle.
     </description>
     <author email="ericwooley@gmail.com" href="http://ericwooley.com">
         Eric Wooley
