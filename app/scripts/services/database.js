@@ -9,7 +9,6 @@ angular.module('App.services')
     // Public API here
     return {
       store: function(location){
-        console.log(location);
         var storeKey = this.storeKeyFromLocation(location);
         if(!storeKey) return;
         // var store; 

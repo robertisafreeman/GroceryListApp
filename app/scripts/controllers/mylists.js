@@ -4,14 +4,15 @@ angular.module('App.controllers')
 function ($scope, storage, storageKeys, $ionicPopup, $location) {
 	$scope.lists = storage.get(storageKeys.listsKey);
 	storage.bind($scope,'lists', {defaultValue: [], storeName: storageKeys.listsKey});
-	if(typeof $scope.lists === 'undefined'){
+	if(!$scope.lists){
 		$scope.lists = [];
 	}
-	console.log("listLength", $scope.lists.length);
+	// console.log("listLength", typeof $scope.lists, $scope.lists.length);
 	if($scope.lists.length === 0){
-		window.setTimeout(function(){
+		console.log("GO to new list");
+		// window.setTimeout(function(){
 			$location.path('/app/newlist');
-		}, 2);
+		// }, 2);
 	}
 
 	$scope.editName = function(list, e){
