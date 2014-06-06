@@ -20,8 +20,7 @@ function ($scope, storage, storageKeys, gmaps, $ionicNavBarDelegate, db) {
 	'pet_store',
 	'shoe_store',
 	'shopping_mall',
-	'liquor_store',
-	'search'
+	'liquor_store'
 	];
 	$scope.storeType = storage.get(storageKeys.locationType);
 	storage.bind($scope,'storeType', {storeName: storageKeys.locationType});
