@@ -1,5 +1,6 @@
 'use strict';
 /* global $ */
+/* global confirm */
 angular.module('App.controllers')
 .controller('ListCtrl', 
 ['$scope', 'storage', '$stateParams', '$ionicPopup', '$location', 'storageKeys', 'gmaps', '$ionicModal', 'database',
@@ -53,7 +54,7 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 				}
 				bestGuess = item.estimatedAisle;
 			}
-			if(item.qty < 2){
+			if(item.qty === 1){
 				item.name = item.name.singularize();
 				item.qtyType = item.qtyType.singularize();
 			} else {
@@ -162,14 +163,12 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 					text: '<b>Save</b>',
 					type: 'button-balanced',
 					onTap: function() {
-						console.log('item', $scope);
 						var itemName = $scope.newItemName;
-						var newItemQty = $scope.newItemQty && !$scope.newItemQty.isBlank()? $scope.newItemQty: 1;
+						var newItemQty = $scope.newItemQty && !String($scope.newItemQty).isBlank()? $scope.newItemQty: 1;
 						$scope.newItemQty = '';
 					   	$scope.newItemName = '';
 						if(itemName){
 					 		itemName = itemName.trim().titleize().singularize();
-					 		console.log('checking', $scope.list.items);
 					 		for (var i = 0; i < $scope.list.items.length; i++) {
 					 			var it = $scope.list.items[i];
 					 			if(it && it.itemKey === keyFromName(itemName)){
@@ -189,7 +188,8 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 					 			itemKey: keyFromName(itemName)
 					 		};
 					   		$scope.list.items.push(item);
-					   		$scope.previousItems = $scope.previousItems.unshift(item.name).unique();
+					   		$scope.previousItems.unshift(item.name);
+					   		 $scope.previousItemsunshift = $scope.previousItems.unique();
 					   		updateAisles();
 					   		
 					 	}
@@ -223,6 +223,8 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 				remoteStore.$on('loaded', function(){
 					updateAisles();
 				});	
+			} else {
+				alert('problem saving store store information');
 			}
 			
 			
@@ -230,9 +232,10 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 			// alert("Could not get nearby stores")
 		});
 	}
+	
+	setLocation();
+	// select closest location every 5 minutes
 	if($scope.myLocation.automatic){
-		setLocation();
-		// select closest location every 5 minutes
 		window.setInterval(setLocation, 300000);
 	}
 }]);
