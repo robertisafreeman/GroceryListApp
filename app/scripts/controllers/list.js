@@ -27,7 +27,7 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 	$scope.keywords = storage.get(storageKeys.locationKeyword);
 	storage.bind($scope,'keywords', {storeName: storageKeys.locationKeyword});
 	if($scope.keywords.isBlank()){
-		$scope.keywords = "";
+		$scope.keywords = '';
 	}
 	function aisleGuess(item){
 		var bestGuess = null;
@@ -130,41 +130,85 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 			}
 		}
 	};
-	$scope.newItem = function(){
-		$ionicPopup.prompt({
-		   title: 'Add New Item',
-		   inputType: 'text',
-		   inputPlaceholder: 'Item Name',
-		   cancelText: 'Cancel',
-		    // cancelType: // String (default: 'button-default'). The type of the Cancel button.
-		    okText: 'Add Item'// String (default: 'OK'). The text of the OK button.
-		    // okType: // String (default: 'button-positive'). The type of the OK button.
-		 }).then(function(itemName) {
-		 	if(itemName){
-		 		itemName = itemName.trim().titleize().singularize();
-		 		var item = {
-		 			name: itemName,
-		 			id: $scope.list.items.length,
-		 			qty: 1,
-		 			qtyType: '',
-		 			found:false,
-		 			itemKey: itemName.toLowerCase().replace(/\s/g, '')
-		 		};
-		   		$scope.list.items.push(item);
+	$scope.previousItems = [
+		'item 1',
+		'b2',
+		'c3'
+	];
+	var previousItems = $scope.previousItems;
+	$scope.itemSearch = function(searchTerm){
+		if(!searchTerm || searchTerm.isBlank()){
+			$scope.searchResults = previousItems;
+			return ;
+		}
+		$scope.searchResults = [];
+		previousItems.each(function(item){
 
-		   		updateAisles();
-		 	}
+			if(item.toLowerCase().has(searchTerm.toLowerCase())){
+				$scope.searchResults.push(item);
+			}
+
+		});
+	};
+
+	$scope.newItem = function(){
+
+		$ionicPopup.show({
+				// template: '<input type="password" ng-model="data.wifi">',
+				templateUrl: 'views/newItem.html',
+				title: 'Create New Item',
+				subTitle: 'Enter item details',
+				scope: $scope,
+				buttons: [
+					{ text: 'Cancel' },
+					{
+					text: '<b>Save</b>',
+					type: 'button-positive',
+					onTap: function() {
+						var itemName = $scope.$parent.newItemName;
+
+							console.log('got new item ',  $scope);
+						if(itemName){
+					 		itemName = itemName.trim().titleize().singularize();
+					 		for (var i = 0; i < $scope.items.length; i++) {
+					 			var it = $scope.items[i];
+					 			if(it.name === itemName){
+					 				return;
+					 			}
+					 		}
+					 		var item = {
+					 			name: itemName,
+					 			id: $scope.list.items.length,
+					 			qty: 1,
+					 			qtyType: '',
+					 			found:false,
+					 			itemKey: itemName.toLowerCase().replace(/\s/g, '')
+					 		};
+					   		$scope.list.items.push(item);
+
+					   		updateAisles();
+					 	}
+					}
+				},
+			]
+		});
+		$scope.itemSearch();
+		// $ionicPopup.prompt({
+		//    title: 'Add New Item',
+		//    inputType: 'text',
+		//    inputPlaceholder: 'Item Name',
+		//    cancelText: 'Cancel',
+		//     okText: 'Add Item'
+		//  }).then(function(itemName) {
+		//  	
 		 	
-		 });
+		//  });
 	};
 	$scope.editItem = function(url){
 		$location.path(url);
 	};
 	$scope.updateItemLocation = function(){
 		$scope.modal.hide();
-		var li = $scope.lastItem;
-		console.log("Updated item", $scope.lastItem);
-		// li.bestGuess = aisleGuess(li);
 		if(!remoteStore.items){
 			remoteStore.items = {};
 			remoteStore.$save('items');	
@@ -173,7 +217,6 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 		var items = remoteStore.$child('items');
 		items[$scope.lastItem.itemKey] = Object.reject($scope.lastItem, ['id', 'found', 'qty']);
 		items.$save($scope.lastItem.itemKey);
-		console.log("Updated item", $scope.lastItem);
 		updateAisles();
 	};
 	function setLocation(){
