@@ -8,27 +8,26 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 	storage.bind($scope,'lists', {defaultValue: {}, storeName: storageKeys.listsKey});
 	$scope.list = $scope.lists[sp.listId];
 	var list = $scope.list;
-
-	$scope.myLocation = storage.get(storageKeys.locationKey);
-	var remoteStore;
-	storage.bind($scope,'myLocation', {storeName: storageKeys.locationKey});
-	if(!$scope.myLocation){
-		$scope.myLocation =  {automatic: true, location:{name: 'Unknown Location'}};
-	} 
-
 	if(!list.items){
 		list.items = [];
 	}
+
+
+	$scope.myLocation = storage.get(storageKeys.locationKey);
+	var remoteStore;
+	storage.bind($scope,'myLocation', {defaultValue: {automatic: true, location:{name: 'Unknown Location'}} ,storeName: storageKeys.locationKey});
+
+
 	$scope.storeType = storage.get(storageKeys.locationType);
-	storage.bind($scope,'storeType', {storeName: storageKeys.locationType});
-	if($scope.storeType.isBlank()){
-		$scope.storeType = 'grocery_or_supermarket';
-	}
+	storage.bind($scope,'storeType', {defaultValue: 'grocery_or_supermarket',storeName: storageKeys.locationType});
+
 	$scope.keywords = storage.get(storageKeys.locationKeyword);
-	storage.bind($scope,'keywords', {storeName: storageKeys.locationKeyword});
-	if($scope.keywords.isBlank()){
+	storage.bind($scope,'keywords', {defaultValue: '', storeName: storageKeys.locationKeyword});
+	if(!$scope.keywords){
 		$scope.keywords = '';
 	}
+	$scope.previousItems = storage.get(storageKeys.itemHistory);
+	storage.bind($scope,'previousItems', {defaultValue: [], storeName: storageKeys.itemHistory});
 	function aisleGuess(item){
 		var bestGuess = null;
 		var itemKey = item.itemKey;
@@ -54,7 +53,7 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 				}
 				bestGuess = item.estimatedAisle;
 			}
-			if(item.qty === 1){
+			if(item.qty < 2){
 				item.name = item.name.singularize();
 				item.qtyType = item.qtyType.singularize();
 			} else {
@@ -130,11 +129,7 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 			}
 		}
 	};
-	$scope.previousItems = [
-		'item 1',
-		'b2',
-		'c3'
-	];
+
 	var previousItems = $scope.previousItems;
 	$scope.itemSearch = function(searchTerm){
 		if(!searchTerm || searchTerm.isBlank()){
@@ -150,9 +145,11 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 
 		});
 	};
-
+	function keyFromName(name){
+		return name.toLowerCase().replace(/\s/g, '');
+	}
 	$scope.newItem = function(){
-
+		// $scope.
 		$ionicPopup.show({
 				// template: '<input type="password" ng-model="data.wifi">',
 				templateUrl: 'views/newItem.html',
@@ -160,49 +157,47 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 				subTitle: 'Enter item details',
 				scope: $scope,
 				buttons: [
-					{ text: 'Cancel' },
+					{ text: 'Cancel', type:'button-assertive' },
 					{
 					text: '<b>Save</b>',
-					type: 'button-positive',
+					type: 'button-balanced',
 					onTap: function() {
-						var itemName = $scope.$parent.newItemName;
-
-							console.log('got new item ',  $scope);
+						console.log('item', $scope);
+						var itemName = $scope.newItemName;
+						var newItemQty = $scope.newItemQty && !$scope.newItemQty.isBlank()? $scope.newItemQty: 1;
+						$scope.newItemQty = '';
+					   	$scope.newItemName = '';
 						if(itemName){
 					 		itemName = itemName.trim().titleize().singularize();
-					 		for (var i = 0; i < $scope.items.length; i++) {
-					 			var it = $scope.items[i];
-					 			if(it.name === itemName){
+					 		console.log('checking', $scope.list.items);
+					 		for (var i = 0; i < $scope.list.items.length; i++) {
+					 			var it = $scope.list.items[i];
+					 			if(it && it.itemKey === keyFromName(itemName)){
+					 				if(confirm('{itemName} is already on the list, add {qty} to it?'.assign({itemName:itemName, qty: newItemQty}))){
+					 					it.qty = it.qty?it.qty:0;
+					 					it.qty += newItemQty;
+					 				}
 					 				return;
 					 			}
 					 		}
 					 		var item = {
 					 			name: itemName,
 					 			id: $scope.list.items.length,
-					 			qty: 1,
+					 			qty: newItemQty,
 					 			qtyType: '',
 					 			found:false,
-					 			itemKey: itemName.toLowerCase().replace(/\s/g, '')
+					 			itemKey: keyFromName(itemName)
 					 		};
 					   		$scope.list.items.push(item);
-
+					   		$scope.previousItems = $scope.previousItems.unshift(item.name).unique();
 					   		updateAisles();
+					   		
 					 	}
 					}
 				},
 			]
 		});
 		$scope.itemSearch();
-		// $ionicPopup.prompt({
-		//    title: 'Add New Item',
-		//    inputType: 'text',
-		//    inputPlaceholder: 'Item Name',
-		//    cancelText: 'Cancel',
-		//     okText: 'Add Item'
-		//  }).then(function(itemName) {
-		//  	
-		 	
-		//  });
 	};
 	$scope.editItem = function(url){
 		$location.path(url);

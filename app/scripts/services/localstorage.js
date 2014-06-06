@@ -8,6 +8,7 @@ angular.module('App.services', [])
       itemsKey:'GroceryListItems',
       locationType: 'GroceryListsLocationType',
       locationKeyword: 'GroceryListsLocationKeywords',
-      settings: "GroceryListsSettings"
+      settings: 'GroceryListsSettings',
+      itemHistory:'GroceryListsItemHistory'
     };
   }]);

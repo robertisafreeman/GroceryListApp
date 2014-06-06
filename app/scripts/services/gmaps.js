@@ -13,10 +13,9 @@ angular.module('App.services')
     	},
     	nearbyStores: function(type, keyword){
             type = type || 'grocery_or_supermarket';
-            if(type =='search' && keyword.isBlank()){
+            if(type === 'search' && keyword.isBlank()){
                 keyword = 'store';
             }
-            console.log("Checking for type", type, keyword);
     		var ret = $q.defer();
     		var onSuccess = function(position) {
     		    // alert('Latitude: '          + position.coords.latitude          + '\n' +
@@ -43,6 +42,7 @@ angular.module('App.services')
     			var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'+
     						'rankby=prominence'+
                             '&radius=50000';
+                console.log(keyword);
                 if(keyword && !keyword.isBlank()){
                     url+= '&keyword='+keyword;
                 }
@@ -59,6 +59,7 @@ angular.module('App.services')
 		    			url: url
 		    		});
 	    		});
-    	}
-    };
-  }]);
+    	   }
+        };
+    }
+]);

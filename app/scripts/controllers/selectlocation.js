@@ -29,9 +29,9 @@ function ($scope, storage, storageKeys, gmaps, $ionicNavBarDelegate, db) {
 		$scope.storeType = $scope.storeTypes[0];
 	}
 	$scope.keywords = storage.get(storageKeys.locationKeyword);
-	storage.bind($scope,'keywords', {storeName: storageKeys.locationKeyword});
+	storage.bind($scope,'keywords', {defaultValue: '', storeName: storageKeys.locationKeyword});
 	if($scope.keywords.isBlank()){
-		$scope.keywords = "";
+		$scope.keywords = '';
 	}
 	console.log($scope.keywords);
 

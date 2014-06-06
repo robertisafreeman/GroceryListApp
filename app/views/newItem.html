@@ -1,6 +1,5 @@
-<input type='text' ng-model='newItemName' ng-change="itemSearch(newItemName); newItemFound = false" placeholder='Enter new item mame:' /><br />
-
-<input type='Number' ng-model='newItemQty' placeholder='Quantity' /><br />
+<input type='text' ng-model='$parent.newItemName' ng-change="itemSearch(newItemName); newItemFound = false" placeholder='Enter new item mame:' /><br />
+<input type='Number' ng-model='$parent.newItemQty' placeholder='Quantity' /><br />
 <div class='list' ng-hide='newItemFound'>
-	<span class='item' ng-repeat='result in searchResults track by $index' ng-click="$parent.newItemName = result; $parent.newItemFound = true">{{result}}</span>
+	<span class='item' ng-repeat='result in searchResults track by $index' ng-click="$parent.$parent.newItemName = result; $parent.newItemFound = true">{{result}}</span>
 </div>
