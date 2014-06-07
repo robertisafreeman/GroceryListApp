@@ -40,8 +40,8 @@ angular.module('App.services')
     		return ret.promise.then(function(){
 
     			var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'+
-    						'rankby=prominence'+
-                            '&radius=50000';
+    						'rankby=distance';
+                            // '&radius=50000';
                 console.log(keyword);
                 if(keyword && !keyword.isBlank()){
                     url+= '&keyword='+keyword;
