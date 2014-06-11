@@ -1,6 +1,7 @@
 'use strict';
 /* global $ */
 /* global confirm */
+/* global alert */
 angular.module('App.controllers')
 .controller('ListCtrl', 
 ['$scope', 'storage', '$stateParams', '$ionicPopup', '$location', 'storageKeys', 'gmaps', '$ionicModal', 'database',
@@ -233,9 +234,9 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 		});
 	}
 	
-	setLocation();
 	// select closest location every 5 minutes
 	if($scope.myLocation.automatic){
+		setLocation();
 		window.setInterval(setLocation, 300000);
 	}
 }]);
