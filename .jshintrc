@@ -22,6 +22,8 @@
     "angular": true,
     "StatusBar":true,
     "_":true,
-    "List":true
+    "List":true,
+    "$":true,
+    "confirm":true
   }
 }
