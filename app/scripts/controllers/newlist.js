@@ -1,7 +1,10 @@
 'use strict';
 angular.module('App.controllers')
-.controller('NewlistCtrl', ['$scope', 'storage', '$location', 'storageKeys', 
-	function ($scope, storage, $location, storageKeys) {
+.controller('NewlistCtrl', ['$scope', 'storage', '$location', 'storageKeys','$ionicNavBarDelegate', 
+	function ($scope, storage, $location, storageKeys, $ionicNavBarDelegate) {
+		$scope.goBack = function() {
+		    $ionicNavBarDelegate.back();
+		};
 	$scope.list = {};
 	$scope.createList = function(){
 		// Get all currently stored lists.
