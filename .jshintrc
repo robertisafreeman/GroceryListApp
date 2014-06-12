@@ -20,6 +20,8 @@
   "smarttabs": true,
   "globals": {
     "angular": true,
-    "StatusBar":true
+    "StatusBar":true,
+    "_":true,
+    "List":true
   }
 }
