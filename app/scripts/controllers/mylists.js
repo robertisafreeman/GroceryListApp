@@ -1,7 +1,7 @@
 'use strict';
 angular.module('App.controllers')
-.controller('MylistsCtrl', ['$scope', 'storage', 'storageKeys', '$ionicPopup',
-function ($scope, storage, storageKeys, $ionicPopup) {
+.controller('MylistsCtrl', ['$scope', 'storage', 'storageKeys', '$ionicActionSheet',
+function ($scope, storage, storageKeys, $ionicActionSheet) {
 	$scope.lists = storage.get(storageKeys.listsKey);
 	storage.bind($scope,'lists', {defaultValue: {}, storeName: storageKeys.listsKey});
 	if(!$scope.lists){
@@ -14,20 +14,28 @@ function ($scope, storage, storageKeys, $ionicPopup) {
 		$scope.lists[list.id] = list;
 	}
 
-	$scope.editName = function(list, e){
-		e.preventDefault();
-		$ionicPopup.prompt({
-		   title: 'Edit Name',
-		   inputType: 'text',
-		   inputPlaceholder: 'List Name',
-		   cancelText: 'Cancel',
-		   okText: 'Change Name'
-		 }).then(function(name) {
-		 	if(name){
-		 		list.name = name;
-		 	}
-		 	
-		 });
+	$scope.addToMasterList = function(e, list){
+		if($(e.target).hasClass('editLink')){
+			return;
+		} 
+		$ionicActionSheet.show({
+			 buttons: [
+			   { text: 'Add unpurchased items' },
+			   { text: 'Add all items' },
+			 ],
+			 destructiveText: 'Delete List',
+			 destructiveButtonClicked: function(){
+			 	if(confirm('Are you sure you want to delete this list?')){
+			 		console.log('Delete the list');
+			 	}
+			 },
+			 titleText: 'Add to Master List',
+			 cancelText: 'Cancel',
+			 buttonClicked: function(index) {
+			 	console.log(index);
+			   return true;
+			 }
+		});
 		 return false;
 	};
 }]);
