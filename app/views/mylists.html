@@ -4,11 +4,21 @@
   </ion-nav-buttons>
   <ion-content class="has-header">
   	<ion-list>
-		<ion-item ng-href='#/app/list/{{list.id}}' ng-repeat="list in lists" class='item item-icon-left item-icon-right'>
-      <i class=" ion-edit icon icon-accessory" ng-click='editName(list, $event)'> </i> 
-  		{{list.name}}
-      <i class='icon icon-accessory ion-chevron-right'></i>
-		</ion-item>
+      <ion-item ng-href='#/app/list/0' class='item item-icon-left item-icon-right'>
+        <i class="icon ion-ios7-cart balanced"> </i> 
+        Master List
+        <i class='icon icon-accessory ion-chevron-right'></i>
+      </ion-item>
+      <list-item class="item item-divider item-icon-right" >
+        
+        Reusable Lists 
+        <a ng-href="#/app/newlist" class='icon ion-plus-round balanced'></a>
+      </list-item>
+  		<ion-item ng-hide="list.name == 'Master List'" ng-href='#/app/list/{{list.id}}' ng-repeat="list in lists" class='item item-icon-left item-icon-right'>
+        <i class=" ion-ios7-infinite balanced icon" ng-click='editName(list, $event)'> </i> 
+    		  {{list.name}}
+        <i class='icon icon-accessory  ion-chevron-right'></i>
+  		</ion-item>
 		</ion-list>
   </ion-content>
 </ion-view>

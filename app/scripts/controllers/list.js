@@ -2,6 +2,7 @@
 /* global $ */
 /* global confirm */
 /* global alert */
+/* global List */
 angular.module('App.controllers')
 .controller('ListCtrl', 
 ['$scope', 'storage', '$stateParams', '$ionicPopup', '$location', 'storageKeys', 'gmaps', '$ionicModal', 'database',
@@ -9,10 +10,7 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 	$scope.lists = storage.get(storageKeys.listsKey);
 	storage.bind($scope,'lists', {defaultValue: {}, storeName: storageKeys.listsKey});
 	$scope.list = $scope.lists[sp.listId];
-	var list = $scope.list;
-	if(!list.items){
-		list.items = [];
-	}
+	var list = $scope.list || new List();
 
 
 	$scope.myLocation = storage.get(storageKeys.locationKey);

@@ -1,15 +1,17 @@
 'use strict';
 angular.module('App.controllers')
 .controller('NewlistCtrl', ['$scope', 'storage', '$location', 'storageKeys', 
-	function ($scope, storage, l, storageKeys) {
+	function ($scope, storage, $location, storageKeys) {
 	$scope.list = {};
-	// storage.bind($scope,'lists', {defaultValue: [] ,storeName: $rootScope.listsKey});
 	$scope.createList = function(){
-		$scope.list.name = $scope.list.name.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+		// Get all currently stored lists.
 		var lists = storage.get(storageKeys.listsKey) || {};
-		$scope.list.id = Object.keys(lists).length;
+		// Create a new list from scripts/objects/list.js
+		$scope.list = new List({name: $scope.list.name});
+		console.log('saving list', $scope.list);
 		lists[$scope.list.id] = $scope.list;
+		console.log('lists',lists);
 		storage.set(storageKeys.listsKey, lists);
-		l.path('/mylists');
+		$location.path('/mylists');
 	};
 }]);
