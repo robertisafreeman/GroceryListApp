@@ -4,26 +4,29 @@
     </ion-header-bar>
     <ion-content drag-content="true">
     	<ion-list class="list">
-    		<ion-item>
-				<ion-radio ng-model="$parent.lastItem.courseLocation" ng-value="BackWall" name='choice'>Back Wall</ion-radio>
-				<ion-radio ng-model="$parent.lastItem.courseLocation" ng-value="FrontOfStore" name='choice'>Front of store</ion-radio>
-				<ion-radio ng-model="$parent.lastItem.courseLocation" ng-value="Produce" name='choice'>Produce</ion-radio>
-				<ion-radio ng-model="$parent.lastItem.courseLocation" ng-value="MeatAndDeli" name='choice'>Meat and Deli</ion-radio>
-				<ion-radio ng-model="$parent.lastItem.courseLocation" ng-value="Bakery" name='choice'>Bakery</ion-radio>
-				<ion-radio ng-model="$parent.lastItem.courseLocation" ng-value="Aisle" name='choice'>On an aisle</ion-radio>
-			</ion-item>
-			<div class="item item-divider" ng-show="$parent.lastItem.courseLocation == 'Aisle'">
-			    Which Aisle?
-			 </div>
-			<ion-item class="item item-input" ng-show="$parent.lastItem.courseLocation == 'Aisle'">
-			    <i class="icon ion-ios7-film placeholder-icon"></i>
-			    <input type="number" ng-model='lastItem.estimatedAisle' placeholder="Please enter an aisle">
-			</ion-item>
-			<span>
+  			<div class="item item-divider" ng-show="$parent.lastItem.courseLocation == 'Aisle'">
+  		    Which Aisle?
+  			</div>
+  			<ion-item class="item item-input" ng-show="$parent.lastItem.courseLocation == 'Aisle'">
+  			    <i class="icon ion-ios7-film placeholder-icon"></i>
+  			    <input type="number" ng-model='lastItem.estimatedAisle' placeholder="Please enter an aisle">
+  			</ion-item>
+	    	<ion-item>
+					<ion-radio ng-model="$parent.lastItem.courseLocation" ng-value="Aisle" name='choice'>On an aisle</ion-radio>
+					<ion-radio ng-model="$parent.lastItem.courseLocation" ng-value="BackWall" name='choice'>Back Wall</ion-radio>
+					<ion-radio ng-model="$parent.lastItem.courseLocation" ng-value="FrontOfStore" name='choice'>Front of store</ion-radio>
+					<ion-radio ng-model="$parent.lastItem.courseLocation" ng-value="Produce" name='choice'>Produce</ion-radio>
+					<ion-radio ng-model="$parent.lastItem.courseLocation" ng-value="MeatAndDeli" name='choice'>Meat and Deli</ion-radio>
+					<ion-radio ng-model="$parent.lastItem.courseLocation" ng-value="Bakery" name='choice'>Bakery</ion-radio>
+				</ion-item>
+			
+			
+			<ion-item>
+
 				<button class='button button-calm button-full' ng-click='updateItemLocation()'>
 					<span class='icon ion-reply small-text'></span> &nbsp; Item Found
 				</button>
-			</span>
+			</ion-item>
 		</ion-list>
     </ion-content>
   </div>
