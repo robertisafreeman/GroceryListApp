@@ -1,11 +1,12 @@
 'use strict';
 angular.module('App.controllers')
-.controller('MylistsCtrl', ['$scope', 'storage', 'storageKeys', '$ionicActionSheet',
-function ($scope, storage, storageKeys, $ionicActionSheet) {
+.controller('MylistsCtrl', 
+['$scope', 'storage', 'storageKeys', '$ionicActionSheet', '$location',
+function ($scope, storage, storageKeys, $ionicActionSheet, $location) {
 	$scope.lists = storage.get(storageKeys.listsKey);
-	storage.bind($scope,'lists', {defaultValue: {}, storeName: storageKeys.listsKey});
+	storage.bind($scope,'lists', {defaultValue: [], storeName: storageKeys.listsKey});
 	if(!$scope.lists){
-		$scope.lists = {};
+		$scope.lists = [];
 	}
 	
 	if(Object.keys($scope.lists).length === 0){
@@ -20,20 +21,31 @@ function ($scope, storage, storageKeys, $ionicActionSheet) {
 		} 
 		$ionicActionSheet.show({
 			 buttons: [
-			   { text: 'Add unpurchased items' },
-			   { text: 'Add all items' },
+			   { text: (list.include?'Remove from':'Add to')+' Master List' },
+			   { text: 'Edit List' },
 			 ],
 			 destructiveText: 'Delete List',
 			 destructiveButtonClicked: function(){
-			 	if(confirm('Are you sure you want to delete this list?')){
-			 		console.log('Delete the list');
+			 	if(confirm('Are you sure you want to delete ' + list.name + '?')){
+			 		delete $scope.lists[list.id];
+			 		return true;
 			 	}
 			 },
-			 titleText: 'Add to Master List',
+			 titleText: 'Reusable List Options',
 			 cancelText: 'Cancel',
+			 cancel:function(){
+			 	return true;
+			 },
 			 buttonClicked: function(index) {
-			 	console.log(index);
-			   return true;
+			 	switch(index){
+			 		case 0: // Show in master list
+			 			list.include = list.include?false:true;
+			 			break;
+			 		case 1: // Edit List
+			 			$location.path('/app/list/'+list.id);
+			 			break;
+			 	}
+			  return true;
 			 }
 		});
 		 return false;
