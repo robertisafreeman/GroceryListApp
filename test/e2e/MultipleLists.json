@@ -1,0 +1,584 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "get",
+      "url": "http://127.0.0.1:9000/"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/list-item/a"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "input.ng-pristine.ng-valid"
+      },
+      "text": "Test 1"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']//button[normalize-space(.)='Create List']"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/list-item/a"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "input.ng-pristine.ng-valid"
+      },
+      "text": "Test 2"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']//button[normalize-space(.)='Create List']"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/list-item/a"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "input.ng-pristine.ng-valid"
+      },
+      "text": "Test 3"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']//button[normalize-space(.)='Create List']"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/list-item/a"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "input.ng-pristine.ng-valid"
+      },
+      "text": "Test 4"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']//button[normalize-space(.)='Create List']"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/list-item/a"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "input.ng-pristine.ng-valid"
+      },
+      "text": "Test 5"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']//button[normalize-space(.)='Create List']"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/ion-item[3]/a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']//ion-item[normalize-space(.)='New Item']"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "div.popup-body > input.ng-pristine.ng-valid"
+      },
+      "text": "Milk"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='popup-body']/input[2]"
+      },
+      "text": ""
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[2]/div[3]/button[2]"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-bar/div[2]/span/a/button"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/ion-item[4]/a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']//ion-item[normalize-space(.)='New Item']"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "div.popup-body > input.ng-pristine.ng-valid"
+      },
+      "text": "Milk"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='popup-body']/input[2]"
+      },
+      "text": "2"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[2]/div[3]/button[2]"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-bar/div[2]/span/a/button"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/ion-item[5]/a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']//ion-item[normalize-space(.)='New Item']"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "div.popup-body > input.ng-pristine.ng-valid"
+      },
+      "text": "Milk"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "span.item.ng-binding"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='popup-body']/input[2]"
+      },
+      "text": "3"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[2]/div[3]/button[2]"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-bar/div[2]/span/a/button"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/ion-item[6]/a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']//ion-item[normalize-space(.)='New Item']"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "div.popup-body > input.ng-pristine.ng-valid"
+      },
+      "text": "Milk"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='popup-body']/input[2]"
+      },
+      "text": "4"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[2]/div[3]/button[2]"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-bar/div[2]/span/a/button"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/ion-item[7]/a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']//ion-item[normalize-space(.)='New Item']"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "div.popup-body > input.ng-pristine.ng-valid"
+      },
+      "text": "Milk"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='popup-body']/input[2]"
+      },
+      "text": "5"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[2]/div[3]/button[2]"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-bar/div[2]/span/a/button"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Master List"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-bar/div[2]/span/a/button"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/ion-item[3]/a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/span/ion-item/a[2]"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/label[3]/input"
+      },
+      "text": "Gallons"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-bar/div[2]/span/a/i"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-bar/div[2]/span/a/button"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/ion-item[4]/a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/span/ion-item/a[2]"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/label[3]/input"
+      },
+      "text": "Quartz"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-bar/div[2]/span/a/i"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-bar/div[2]/span/a/button"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/ion-item[5]/a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/span/ion-item/a[2]"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/label[3]/input"
+      },
+      "text": "Ounces"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-bar/div[2]/span/a/i"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-bar/div[2]/span/a/button"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/ion-item[6]/a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/span/ion-item/a[2]"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/label[3]/input"
+      },
+      "text": "Litres"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-bar/div[2]/span/a/i"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-bar/div[2]/span/a/button"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/ion-item[7]/a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/span/ion-item/a[2]"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/label[3]/input"
+      },
+      "text": "Cases"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-bar/div[2]/span/a/i"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-bar/div[2]/span/a/button"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Master List"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-view/ion-view/ion-content/div[1]/ion-list/div/span/ion-item[1]/span[1]"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='modal-wrapper']/div/ion-content/div[1]/ion-list/div/ion-item[1]/input"
+      },
+      "text": "2"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='modal-wrapper']/div/ion-content/div[1]/ion-list/div/ion-item[3]/button"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='view']/ion-pane/ion-nav-bar/div[2]/span/a/button"
+      }
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 60
+}

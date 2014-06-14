@@ -1,0 +1,12 @@
+{
+	"node":true,
+  "globals": {
+    "element": true,
+    "describe":true,
+    "it":true,
+    "browser":true,
+    "expect":true,
+    "by":true,
+    "beforeEach":true
+  }
+}

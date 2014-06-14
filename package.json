@@ -1,7 +1,9 @@
 {
   "name": "App",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "astrolabe": "^0.3.4-alpha"
+  },
   "devDependencies": {
     "cordova": "~3.4.0-0.1.3",
     "grunt": "~0.4.1",

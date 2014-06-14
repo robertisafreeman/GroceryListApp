@@ -1,4 +1,5 @@
 'use strict';
+
 // Ionic Starter App, v0.9.20
 
 // angular.module is a global place for creating, registering and retrieving Angular modules

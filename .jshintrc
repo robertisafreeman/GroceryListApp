@@ -9,6 +9,7 @@
   "immed": true,
   "indent": 2,
   "latedef": true,
+  "loopfunc":true,
   "newcap": true,
   "noarg": true,
   "quotmark": "single",
@@ -24,6 +25,7 @@
     "_":true,
     "List":true,
     "$":true,
-    "confirm":true
+    "confirm":true,
+    "protractor":true
   }
 }
