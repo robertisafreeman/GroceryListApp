@@ -2,7 +2,7 @@
 function List(op){
 	_.defaults(op, {
 		items: [],
-		id: uuid()
+		include: true
 	});
 	_.defaults(this, op);
 	this.name = this.name.titleize();
