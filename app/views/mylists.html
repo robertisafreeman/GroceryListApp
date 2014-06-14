@@ -17,8 +17,8 @@
         <i class="icon ion-ios7-cart balanced" ng-show='list.include'> </i> 
         <i class="icon ion-ios7-cart-outline balanced" ng-hide='list.include'> </i> 
         <!-- <i class=" ion-ios7-infinite balanced icon" ng-click='editName(list, $event)'> </i>  -->
-    		  {{list.name}} 
-        <a ng-href='#/app/list/{{list.id}}' class='editLink subtle-text icon ion-ios7-compose-outline'></a>
+    		  <span id='list{{list.id}}Name'>{{list.name}}</span>
+        <a ng-href='#/app/list/{{list.id}}' id='list{{list.id}}EditButton' class='editLink subtle-text icon ion-ios7-compose-outline'></a>
   		</ion-item>
 		</ion-list>
   </ion-content>
