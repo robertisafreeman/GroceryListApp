@@ -7,27 +7,56 @@ angular.module('App.controllers')
 .controller('ListCtrl', 
 ['$scope', 'storage', '$stateParams', '$ionicPopup', '$location', 'storageKeys', 'gmaps', '$ionicModal', 'database',
 function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ionicModal, database ) {
+
+
+
+
+
+
+	// Initialize Lists
 	$scope.lists = storage.get(storageKeys.listsKey);
 	storage.bind($scope,'lists', {defaultValue: {}, storeName: storageKeys.listsKey});
 	$scope.list = $scope.lists[sp.listId];
-	var list = $scope.list || new List();
+	var thisList = $scope.list || new List();
 
-
+	// Initialize Locations
 	$scope.myLocation = storage.get(storageKeys.locationKey);
 	var remoteStore;
-	storage.bind($scope,'myLocation', {defaultValue: {automatic: true, location:{name: 'Unknown Location'}} ,storeName: storageKeys.locationKey});
-
-
+	storage.bind($scope,'myLocation', 
+		{
+			defaultValue: {automatic: true, location:{name: 'Unknown Location'}},
+			storeName: storageKeys.locationKey
+		}
+	);
 	$scope.storeType = storage.get(storageKeys.locationType);
 	storage.bind($scope,'storeType', {defaultValue: 'grocery_or_supermarket',storeName: storageKeys.locationType});
-
 	$scope.keywords = storage.get(storageKeys.locationKeyword);
 	storage.bind($scope,'keywords', {defaultValue: '', storeName: storageKeys.locationKeyword});
 	if(!$scope.keywords){
 		$scope.keywords = '';
 	}
+
+	// Initialize Previous Items
 	$scope.previousItems = storage.get(storageKeys.itemHistory);
 	storage.bind($scope,'previousItems', {defaultValue: [], storeName: storageKeys.itemHistory});
+	var previousItems = $scope.previousItems;
+	// This sets items to visible or invisible in the previous items search.
+	$scope.itemSearch = function(searchTerm){
+		if(!searchTerm || searchTerm.isBlank()){
+			$scope.searchResults = previousItems;
+			return ;
+		}
+		$scope.searchResults = [];
+		previousItems.each(function(item){
+
+			if(item.toLowerCase().has(searchTerm.toLowerCase())){
+				$scope.searchResults.push(item);
+			}
+
+		});
+	};
+
+	// Assigns our best location guess to an Aisle.
 	function aisleGuess(item){
 		var bestGuess = null;
 		var itemKey = item.itemKey;
@@ -53,7 +82,7 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 				}
 				bestGuess = item.estimatedAisle;
 			}
-			if(item.qty === 1){
+			if(item.displayQty === 1){
 				item.name = item.name.singularize();
 				item.qtyType = item.qtyType.singularize();
 			} else {
@@ -64,29 +93,58 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 
 		return bestGuess;
 	}
-	function updateAisles(){
-		var found = {};
-		var aisles = [];
+	var found, aisles;
+	function compileLists(key, list){
+		if(!list) {
+			return;
+		}
+		if(list !== thisList && !list.include){
+			return;
+		}
 		for (var i = 0; i < list.items.length; i++) {
-			var item =  list.items[i];
+			var item = list.items[i];
 			if(item){
 				item.bestGuess = aisleGuess(item);
 				var itemAisle = item.bestGuess;
-				if(!found[itemAisle]){
+				if(typeof found[itemAisle] === 'undefined'){
 					var prettyKey = typeof itemAisle === 'number'? 'Aisle '+String(itemAisle): itemAisle;
 					found[itemAisle] = {
 						key: itemAisle,
 						prettyKey:prettyKey.spacify().titleize(),
-						num: 1
+						num: 1,
+						items: [item]
 					};
+					item.displayQty = item.qty;
 					aisles.push(found[itemAisle]);
 				}
 				else{
 					found[itemAisle].num++;
+					var itemInList = false;
+					found[itemAisle].items.forEach(function(itm){
+						if(itm.itemKey === item.itemKey && itm.qtyType === item.qtyType){
+							itm.displayQty += item.qty;
+							itemInList = true;
+						}
+					});
+					if(!itemInList){
+						found[itemAisle].items.push(item);
+					}
 				}	
 			}
 			
 		}
+	}
+	// Reorderes items on the list to be organized by aisle.
+	function updateAisles(){
+		found = {};
+		aisles = [];
+		if(thisList.id === 0){
+			Object.keys($scope.lists, compileLists);
+		} else {
+			compileLists(0, thisList);
+		}
+			
+		
 		$scope.aisles = aisles.sort(function(a, b){
 			if(typeof a.key === 'string') {
 				return true;
@@ -99,7 +157,7 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 	}
 	updateAisles();
 	
-
+	// Initial Item location Modal
 	$ionicModal.fromTemplateUrl('views/itemLocation.html', {
 		scope: $scope,
 		animation: 'slide-in-up'
@@ -111,17 +169,17 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 		$scope.modal.remove();
 	});
 	// Execute action on hide modal
-	$scope.$on('modal.hide', function() {
-		// Execute action
-	});
-	// Execute action on remove modal
-	$scope.$on('modal.removed', function() {
-		// Execute action
-	});
+	// $scope.$on('modal.hide', function() {
+	// 	// Execute action
+	// });
+	// // Execute action on remove modal
+	// $scope.$on('modal.removed', function() {
+	// 	// Execute action
+	// });
+	
+	// Marks an Item as found and requrest it's location from the user via the modal.
 	$scope.crossOff = function(item, e){
-		// console.log("currentTarget", e.target);
 		if(!$(e.target).hasClass('editItem')){
-			// e.preventDefault();
 			$scope.lastItem = item;
 			item.found = !item.found;
 			if(item.found){
@@ -130,28 +188,13 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 		}
 	};
 
-	var previousItems = $scope.previousItems;
-	$scope.itemSearch = function(searchTerm){
-		if(!searchTerm || searchTerm.isBlank()){
-			$scope.searchResults = previousItems;
-			return ;
-		}
-		$scope.searchResults = [];
-		previousItems.each(function(item){
 
-			if(item.toLowerCase().has(searchTerm.toLowerCase())){
-				$scope.searchResults.push(item);
-			}
-
-		});
-	};
 	function keyFromName(name){
 		return name.toLowerCase().replace(/\s/g, '');
 	}
+	// New pop up to add an item to the list.
 	$scope.newItem = function(){
-		// $scope.
 		$ionicPopup.show({
-				// template: '<input type="password" ng-model="data.wifi">',
 				templateUrl: 'views/newItem.html',
 				title: 'Create New Item',
 				subTitle: 'Enter item details',
@@ -172,16 +215,19 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 					 			var it = $scope.list.items[i];
 					 			if(it && it.itemKey === keyFromName(itemName)){
 					 				if(confirm('{itemName} is already on the list, add {qty} to it?'.assign({itemName:itemName, qty: newItemQty}))){
-					 					it.qty = it.qty?it.qty:0;
+					 					it.qty = it.qty?it.qty:1;
 					 					it.qty += newItemQty;
+					 					it.displayQty = it.qty;
 					 				}
-					 				return;
+					   			
+					 				return updateAisles();
 					 			}
 					 		}
 					 		var item = {
 					 			name: itemName,
 					 			id: $scope.list.items.length,
 					 			qty: newItemQty,
+					 			displayQty: newItemQty,
 					 			qtyType: '',
 					 			found:false,
 					 			itemKey: keyFromName(itemName)
@@ -190,7 +236,6 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 					   		$scope.previousItems.unshift(item.name);
 					   		 $scope.previousItemsunshift = $scope.previousItems.unique();
 					   		updateAisles();
-					   		
 					 	}
 					}
 				},
