@@ -11,13 +11,13 @@
       </ion-item>
       <list-item class="item item-divider item-icon-right" >
         Reusable Lists 
-        <a ng-href="#/app/newlist" class='icon ion-plus-round balanced'></a>
+        <a ng-href="#/app/newlist" class='icon ion-plus-round balanced' id='addResuableList'></a>
       </list-item>
-  		<ion-item ng-hide="list.name == 'Master List'" ng-click='addToMasterList($event, list)' ng-repeat="list in lists" class='item item-icon-left item-icon-right'>
+  		<ion-item ng-hide="list.name == 'Master List' || !list" ng-click='addToMasterList($event, list)' ng-repeat="list in lists|orderBy:'name'" class='item item-icon-left item-icon-right'>
         <i class="icon ion-ios7-cart balanced" ng-show='list.include'> </i> 
         <i class="icon ion-ios7-cart-outline balanced" ng-hide='list.include'> </i> 
         <!-- <i class=" ion-ios7-infinite balanced icon" ng-click='editName(list, $event)'> </i>  -->
-    		  {{list.name}}
+    		  {{list.name}} 
         <a ng-href='#/app/list/{{list.id}}' class='editLink subtle-text icon ion-ios7-compose-outline'></a>
   		</ion-item>
 		</ion-list>
