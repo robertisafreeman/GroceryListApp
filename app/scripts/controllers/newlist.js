@@ -10,7 +10,7 @@ angular.module('App.controllers')
 		// Get all currently stored lists.
 		var lists = storage.get(storageKeys.listsKey) || {};
 		// Create a new list from scripts/objects/list.js
-		$scope.list = new List({name: $scope.list.name});
+		$scope.list = new List({name: $scope.list.name, id:lists.length});
 		console.log('saving list', $scope.list);
 		lists[$scope.list.id] = $scope.list;
 		console.log('lists',lists);
