@@ -5,8 +5,8 @@
 /* global List */
 angular.module('App.controllers')
 .controller('ListCtrl', 
-['$scope', 'storage', '$stateParams', '$ionicPopup', '$location', 'storageKeys', 'gmaps', '$ionicModal', 'database',
-function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ionicModal, database ) {
+['$scope', 'storage', '$stateParams', '$ionicPopup', '$location', 'storageKeys', 'gmaps', '$ionicModal', 'database', '$timeout', '$interval',
+function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ionicModal, database, $timeout, $interval ) {
 	// Initialize Lists
 	$scope.lists = storage.get(storageKeys.listsKey);
 	storage.bind($scope,'lists', {defaultValue: {}, storeName: storageKeys.listsKey});
@@ -15,7 +15,7 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 
 	// Initialize Locations
 	$scope.myLocation = storage.get(storageKeys.locationKey);
-	var remoteStore;
+	var remoteStore = database.store($scope.myLocation.location);
 	storage.bind($scope,'myLocation', 
 		{
 			defaultValue: {automatic: true, location:{name: 'Unknown Location'}},
@@ -64,28 +64,28 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 				if(item.qtyType === 'qty'){
 					item.qtyType = remoteItem.qtyType;
 				}
-			} 
-			if(typeof item.courseLocation === 'undefined'){
-				item.courseLocation = 'Aisle';
-			} else {
-				bestGuess = item.courseLocation;
-			}
-			if(item.courseLocation === 'Aisle') {
-				if(!item.estimatedAisle){
-					item.estimatedAisle = 'Unknown';
+			 
+				if(typeof item.courseLocation === 'undefined'){
+					item.courseLocation = 'Aisle';
+				} else {
+					bestGuess = item.courseLocation;
 				}
-				bestGuess = item.estimatedAisle;
-			}
-			if(item.displayQty === 1){
-				item.name = item.name.singularize();
-				item.qtyType = item.qtyType.singularize();
-			} else {
-				item.name = item.name.pluralize();
-				item.qtyType = item.qtyType.pluralize();
+				if(item.courseLocation === 'Aisle') {
+					if(!item.estimatedAisle){
+						item.estimatedAisle = 'Unknown';
+					}
+					bestGuess = item.estimatedAisle;
+				}
+				if(item.displayQty === 1){
+					item.name = item.name.singularize();
+					item.qtyType = item.qtyType.singularize();
+				} else {
+					item.name = item.name.pluralize();
+					item.qtyType = item.qtyType.pluralize();
+				}
 			}
 		}
-
-		return bestGuess;
+		return bestGuess || 'Unknown';
 	}
 	var found, aisles;
 	function compileLists(key, list){
@@ -130,6 +130,7 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 	}
 	// Reorderes items on the list to be organized by aisle.
 	function updateAisles(){
+		console.log(remoteStore);
 		found = {};
 		aisles = [];
 		if(thisList.id === 0){
@@ -162,14 +163,6 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 	$scope.$on('$destroy', function() {
 		$scope.modal.remove();
 	});
-	// Execute action on hide modal
-	// $scope.$on('modal.hide', function() {
-	// 	// Execute action
-	// });
-	// // Execute action on remove modal
-	// $scope.$on('modal.removed', function() {
-	// 	// Execute action
-	// });
 	
 	// Marks an Item as found and requrest it's location from the user via the modal.
 	$scope.crossOff = function(item, e){
@@ -235,6 +228,10 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 				},
 			]
 		});
+		$timeout(function(){
+			$('#newItemNameInput').focus();
+		}, 3);
+		
 		$scope.itemSearch();
 	};
 	$scope.editItem = function(url){
@@ -279,7 +276,7 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 	// select closest location every 5 minutes
 	if($scope.myLocation.automatic){
 		setLocation();
-		window.setInterval(setLocation, 300000);
+		$interval(setLocation, 300000);
 	}
 }]);
 angular.module('App.controllers').filter('byAisle', function() {
