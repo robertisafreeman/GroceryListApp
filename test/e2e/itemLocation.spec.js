@@ -1,18 +1,20 @@
 'use strict';
 var listPage = require('./pages/list.page');
 var myListsPage = require('./pages/myLists.page');
-// var ptor = protractor.getInstance();
+var appPage = require('./pages/app.page');
 describe('Selecting Item Location', function () {
   beforeEach(function () {
-    browser.driver.get('http://127.0.0.1:9000/#/app/mylists');
+  	appPage.backButton.click(); 
   });
   describe('on list 1', function () {
     it('Milk should be on the back wall', function () {
       myListsPage.row1EditButton.click();
-      listPage.unknownRow1.click();
+      listPage.milk.click();
       listPage.BackWallSelect.click();
+
+      expect(listPage.milk.getAttribute('class')).toMatch('cat-Backwall');
       listPage.saveLocationButton.click();
-      browser.debugger();
+      
     });
   });
 });

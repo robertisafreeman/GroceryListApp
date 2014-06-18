@@ -1,9 +1,7 @@
 'use strict';
 var myListsPage = require('./pages/myLists.page');
+// var appPage = require('./pages/app.page');
 describe('Reusable Lists', function () {
-  beforeEach(function () {
-    browser.driver.get('http://127.0.0.1:9000/#/app/mylists');
-  });
   it('should create list T1', function () {
     myListsPage.addReusableList.click();
     myListsPage.newListNameInput.sendKeys('Test 1');
@@ -35,4 +33,5 @@ describe('Reusable Lists', function () {
     text = myListsPage.row4Text.getText();
     expect(text).toContain('Test 4');
   });
+  
 });

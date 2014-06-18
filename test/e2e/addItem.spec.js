@@ -1,10 +1,16 @@
 'use strict';
 var listPage = require('./pages/list.page');
 var myListsPage = require('./pages/myLists.page');
+var appPage = require('./pages/app.page');
 var ptor = protractor.getInstance();
+var first = true;
 describe('Add Items', function () {
   beforeEach(function () {
-    browser.driver.get('http://127.0.0.1:9000/#/app/mylists');
+    if(first){
+        first = false;
+        return;
+    }
+    appPage.backButton.click(); 
   });
   describe('to list 1', function () {
     it('Should add 1 Milk to Test 1', function () {
@@ -13,9 +19,9 @@ describe('Add Items', function () {
       listPage.newItemNameInput.sendKeys('Milk');
       listPage.newItemQtyInput.sendKeys('1');
       listPage.addNewItemButton.click();
-      var text = listPage.unknownRow1Text.getText();
+      var text = listPage.milkText.getText();
       expect(text).toContain('Milk');
-      text = listPage.unknownRow1Qty.getText();
+      text = listPage.milkQty.getText();
       expect(text).toContain('1');
     });
     it('should add 2 more milk to the total of milks totaling 3 milks', function () {
@@ -25,9 +31,9 @@ describe('Add Items', function () {
       listPage.newItemQtyInput.sendKeys('2');
       listPage.addNewItemButton.click();
       ptor.switchTo().alert().accept();
-      var text = listPage.unknownRow1Text.getText();
+      var text = listPage.milkText.getText();
       expect(text).toContain('Milk');
-      text = listPage.unknownRow1Qty.getText();
+      text = listPage.milkQty.getText();
       expect(text).toContain('3');
     });
     it('Should add 1 Chip to Test 1', function () {
@@ -36,9 +42,9 @@ describe('Add Items', function () {
       listPage.newItemNameInput.sendKeys('Chip');
       listPage.newItemQtyInput.sendKeys('1');
       listPage.addNewItemButton.click();
-      var text = listPage.unknownRow2Text.getText();
+      var text = listPage.chipText.getText();
       expect(text).toContain('Chip');
-      text = listPage.unknownRow2Qty.getText();
+      text = listPage.chipQty.getText();
       expect(text).toContain('1');
     });
     it('should add 2 more chips to the total of chips totaling 3 chips', function () {
@@ -48,9 +54,9 @@ describe('Add Items', function () {
       listPage.newItemQtyInput.sendKeys('2');
       listPage.addNewItemButton.click();
       ptor.switchTo().alert().accept();
-      var text = listPage.unknownRow2Text.getText();
+      var text = listPage.chipText.getText();
       expect(text).toContain('Chips');
-      text = listPage.unknownRow2Qty.getText();
+      text = listPage.chipQty.getText();
       expect(text).toContain('3');
     });
   });
@@ -68,18 +74,18 @@ describe('Add Items', function () {
       listPage.newItemNameInput.sendKeys('Cheese');
       listPage.newItemQtyInput.sendKeys('1');
       listPage.addNewItemButton.click();
-      var text = listPage.unknownRow1Text.getText();
+      var text = listPage.cheeseText.getText();
       expect(text).toContain('Cheese');
-      text = listPage.unknownRow1Qty.getText();
+      text = listPage.cheeseQty.getText();
       expect(text).toContain('1');
 		});
 	});
 	describe('list 1', function () {
 		it('should not contain cheese from list 2', function () {
-			browser.debugger();
 			myListsPage.row1EditButton.click();
 			var pageText = element(by.xpath('/html')).getText();
 			expect(pageText).not.toContain('Cheese');
+			// appPage.backButton.click(); 
 		});
 	});
 });
