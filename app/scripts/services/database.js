@@ -1,12 +1,20 @@
 'use strict';
 /* global Firebase */
 var baseUrl = 'https://grocerylist.firebaseio.com/';
+var testMode = false;
+var firstRun = true;
+// If this is a protractor test, do not use real data
+
 var storesURL = 'stores/';
 angular.module('App.services')
   .factory('database', ['$firebase',  function($firebase){
+    if(window.clientSideScripts){
+      console.log('TEST MODE');
+      baseUrl = 'https://grocerylist-test.firebaseio.com/';
+      testMode = true;
+    }
     var storesRef = new Firebase(baseUrl+storesURL);
     var stores = $firebase(storesRef);
-    var testVar = {};// This is used in tests, so that real data isn't touched
     // Public API here
     return {
       store: function(location){
@@ -14,9 +22,11 @@ angular.module('App.services')
         if(!storeKey){
           return;          
         } 
-        // If this is a protractor test, do not use real data
-        if(window.clientSideScripts){
-          return testVar;
+        if(testMode && firstRun){
+          firstRun = false;
+          stores[storeKey] = null;
+          stores.$save(storeKey);
+          stores.$child(storeKey);
         }
           
         return stores.$child(storeKey);
