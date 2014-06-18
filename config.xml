@@ -15,4 +15,5 @@
 	<feature name="NetworkStatus">
 	    <param name="ios-package" value="CDVConnection" />
 	</feature>
+    <!-- <preference name="keyboardDisplayRequiresUserAction" value="false" /> -->
 </widget>
