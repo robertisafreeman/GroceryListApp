@@ -15,7 +15,11 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 
 	// Initialize Locations
 	$scope.myLocation = storage.get(storageKeys.locationKey);
-	var remoteStore = database.store($scope.myLocation.location);
+	var remoteStore;
+	if($scope.myLocation && $scope.myLocation.location){
+		remoteStore = database.store($scope.myLocation.location);
+		console.log('set manual location');
+	}
 	storage.bind($scope,'myLocation', 
 		{
 			defaultValue: {automatic: true, location:{name: 'Unknown Location'}},
@@ -76,13 +80,13 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 					}
 					bestGuess = item.estimatedAisle;
 				}
-				if(item.displayQty === 1){
-					item.name = item.name.singularize();
-					item.qtyType = item.qtyType.singularize();
-				} else {
-					item.name = item.name.pluralize();
-					item.qtyType = item.qtyType.pluralize();
-				}
+			}
+			if(item.displayQty === 1){
+				item.name = item.name.singularize();
+				item.qtyType = item.qtyType.singularize();
+			} else {
+				item.name = item.name.pluralize();
+				item.qtyType = item.qtyType.pluralize();
 			}
 		}
 		return bestGuess || 'Unknown';
@@ -130,7 +134,6 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 	}
 	// Reorderes items on the list to be organized by aisle.
 	function updateAisles(){
-		console.log(remoteStore);
 		found = {};
 		aisles = [];
 		if(thisList.id === 0){
@@ -249,7 +252,7 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 			items[$scope.lastItem.itemKey] = Object.reject($scope.lastItem, ['id', 'found', 'qty']);
 			items.$save($scope.lastItem.itemKey);
 		} catch(e) {
-			alert('There seems to be a problem with the internet connection');
+			// alert('There seems to be a problem with the internet connection');
 		}
 		
 		
