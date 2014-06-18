@@ -1,8 +1,8 @@
 'use strict';
 angular.module('App.controllers')
 .controller('MylistsCtrl', 
-['$scope', 'storage', 'storageKeys', '$ionicActionSheet', '$location',
-function ($scope, storage, storageKeys, $ionicActionSheet, $location) {
+['$scope', 'storage', 'storageKeys', '$ionicActionSheet', '$location', '$ionicPopup',
+function ($scope, storage, storageKeys, $ionicActionSheet, $location, $ionicPopup) {
 	$scope.lists = storage.get(storageKeys.listsKey);
 	storage.bind($scope,'lists', {defaultValue: [], storeName: storageKeys.listsKey});
 	if(!$scope.lists){
@@ -15,6 +15,29 @@ function ($scope, storage, storageKeys, $ionicActionSheet, $location) {
 		$scope.lists[list.id] = list;
 	}
 
+	function renameList(list){
+		$scope.listToRename = list;
+	  $ionicPopup.show({
+	    template: '<input type="text" id="renameListInput" ng-model="listToRename.name">',
+	    title: 'Rename List',
+	    subTitle: list.name,
+	    scope: $scope,
+	    buttons: [
+	      { text: 'Cancel' },
+	      {
+	        text: '<b>Save</b>',
+	        type: 'button-positive',
+	      },
+	    ]
+	  });
+	}
+
+	function setListPruchached(list, val){
+		console.log('list', list);
+		list.items.forEach(function(item){
+			item.found = val;
+		});
+	}
 	$scope.addToMasterList = function(e, list){
 		if($(e.target).hasClass('editLink')){
 			return;
@@ -22,7 +45,10 @@ function ($scope, storage, storageKeys, $ionicActionSheet, $location) {
 		$ionicActionSheet.show({
 			 buttons: [
 			   { text: (list.include?'Remove from':'Add to')+' Master List' },
-			   { text: 'Edit List' },
+			   { text: 'Mark purchased'},
+			   { text: 'Mark unpurchased'},
+			   { text: 'Rename'},
+			   { text: 'Edit' },
 			 ],
 			 destructiveText: 'Delete List',
 			 destructiveButtonClicked: function(){
@@ -41,7 +67,16 @@ function ($scope, storage, storageKeys, $ionicActionSheet, $location) {
 			 		case 0: // Show in master list
 			 			list.include = list.include?false:true;
 			 			break;
-			 		case 1: // Edit List
+			 		case 1: // mark purchased
+			 			setListPruchached(list, true);
+			 			break;
+			 		case 2: // mark unpuchased
+			 			setListPruchached(list, false);
+			 			break;
+			 		case 3: // Rename List
+			 			renameList(list);
+			 			break;
+			 		case 4: // Edit List
 			 			$location.path('/app/list/'+list.id);
 			 			break;
 			 	}
