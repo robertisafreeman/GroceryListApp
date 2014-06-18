@@ -498,7 +498,7 @@ module.exports = function (grunt) {
     // 'ngmin',
     'copy:dist',
     'cssmin',
-    'uglify',
+    // 'uglify',
     'usemin',
     'htmlmin',
     'cordova:build'
