@@ -11,10 +11,8 @@ describe('Selecting Item Location', function () {
       myListsPage.row1EditButton.click();
       listPage.milk.click();
       listPage.BackWallSelect.click();
-
-      expect(listPage.milk.getAttribute('class')).toMatch('cat-Backwall');
       listPage.saveLocationButton.click();
-      
+      expect(listPage.milk.getAttribute('class')).toMatch('cat-BackWall');
     });
   });
 });
