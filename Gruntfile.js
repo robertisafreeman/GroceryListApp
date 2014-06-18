@@ -488,6 +488,21 @@ module.exports = function (grunt) {
     'htmlmin',
     'cordova:build'
   ]);
+    grunt.registerTask('build-light', [
+    'clean:dist',
+    'bower-install',
+    'useminPrepare',
+    'concurrent:dist',
+    'autoprefixer',
+    'concat',
+    // 'ngmin',
+    'copy:dist',
+    'cssmin',
+    'uglify',
+    'usemin',
+    'htmlmin',
+    'cordova:build'
+  ]);
 
   grunt.registerTask('cordova', ['copy:all', 'cordova:build']);
 
