@@ -16,23 +16,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-protractor-runner');
   // Define the configuration for all the tasks
   grunt.initConfig({
-    protractor: {
-      options: {
-        configFile: 'test/e2e/protractor.conf', // Default config file
-        keepAlive: true, // If false, the grunt process stops when the test fails.
-        noColor: false, // If true, protractor will not use colors in its output.
-        args: {
-          // Arguments passed to the command
-        }
-      },
-      // your_target: {
-      //   options: {
-      //     configFile: 'e2e.conf.js', // Target-specific config file
-      //     args: {} // Target-specific arguments
-      //   }
-      // },
-    },
-
     // Project settings
     yeoman: {
       // configurable paths
@@ -253,7 +236,8 @@ module.exports = function (grunt) {
             '*.html',
             'views/**/*.html',
             'fonts/*',
-            'res/**'
+            'res/**',
+            'config.xml'
           ]
         }, {
           expand: true,
