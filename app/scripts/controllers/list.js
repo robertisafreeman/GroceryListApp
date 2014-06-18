@@ -7,12 +7,6 @@ angular.module('App.controllers')
 .controller('ListCtrl', 
 ['$scope', 'storage', '$stateParams', '$ionicPopup', '$location', 'storageKeys', 'gmaps', '$ionicModal', 'database',
 function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ionicModal, database ) {
-
-
-
-
-
-
 	// Initialize Lists
 	$scope.lists = storage.get(storageKeys.listsKey);
 	storage.bind($scope,'lists', {defaultValue: {}, storeName: storageKeys.listsKey});
@@ -234,7 +228,7 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 					 		};
 					   		$scope.list.items.push(item);
 					   		$scope.previousItems.unshift(item.name);
-					   		 $scope.previousItemsunshift = $scope.previousItems.unique();
+					   		$scope.previousItems = $scope.previousItems.unique();
 					   		updateAisles();
 					 	}
 					}
@@ -248,14 +242,20 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 	};
 	$scope.updateItemLocation = function(){
 		$scope.modal.hide();
-		if(!remoteStore.items){
-			remoteStore.items = {};
-			remoteStore.$save('items');	
+		try{
+			if(!remoteStore.items){
+				remoteStore.items = {};
+				remoteStore.$save('items');
+			}
+			
+			var items = remoteStore.$child('items');
+			items[$scope.lastItem.itemKey] = Object.reject($scope.lastItem, ['id', 'found', 'qty']);
+			items.$save($scope.lastItem.itemKey);
+		} catch(e) {
+			alert('There seems to be a problem with the internet connection');
 		}
 		
-		var items = remoteStore.$child('items');
-		items[$scope.lastItem.itemKey] = Object.reject($scope.lastItem, ['id', 'found', 'qty']);
-		items.$save($scope.lastItem.itemKey);
+		
 		updateAisles();
 	};
 	function setLocation(){
@@ -270,7 +270,6 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 			} else {
 				alert('problem saving store store information');
 			}
-			
 			
 		}, function(){
 			// alert("Could not get nearby stores")

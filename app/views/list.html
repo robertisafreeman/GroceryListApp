@@ -3,7 +3,7 @@
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-nav-buttons side="right">
-	<a ng-href='#/app/mylists'><button class="button button-icon icon ion-reply"></button></a>
+	<a ng-href='#/app/mylists'><button class="button button-icon icon ion-reply" id='backButton'></button></a>
   </ion-nav-buttons>
   <ion-content class="has-header">
   	<ion-list class='list '>
@@ -26,14 +26,14 @@
           {{aisle.prettyKey}}
         </div>
   			<!--  -->
-  			<ion-item id="{{aisle.key}}item{{$index}}" ng-click="crossOff(item, $event)" ng-repeat="item in aisle.items track by $index" class='item-icon-left item item-icon-right'  ng-show="!item.found || $parent.$parent.settings.showFound">
+  			<ion-item id="{{item.itemKey}}-row" ng-click="crossOff(item, $event)" ng-repeat="item in aisle.items track by $index" class='cat-{{aisle.key}} item-icon-left item item-icon-right'  ng-show="!item.found || $parent.$parent.settings.showFound">
   				<span ng-class='{"ion-ios7-circle-outline":!item.found, "subtle-text":item.found, "ion-ios7-checkmark-outline": item.found}' class='icon large-text item-icon icon-large listCheck '></span>
-  				<span ng-class='{"subtle-text":item.found}' id="{{aisle.key}}item{{$index}}Name" >{{item.name}}</span>
+  				<span ng-class='{"subtle-text":item.found}' id="{{item.itemKey}}-text" >{{item.name}}</span>
   				<a ng-href="#/app/list/{{list.id}}/item/{{item.id}}" class='pull-right editItem'>
-  					<span class='editItem subtle-text' id="{{aisle.key}}item{{$index}}Qty">{{item.displayQty}}</span>
-  					<span class='editItem subtle-text' id="{{aisle.key}}item{{$index}}QtyType">{{item.qtyType}}</span>
+  					<span class='editItem subtle-text' id="{{item.itemKey}}-qty">{{item.displayQty}}</span>
+  					<span class='editItem subtle-text' id="{{item.itemKey}}-qtyType">{{item.qtyType}}</span>
   				</a>
-  				<a ng-href="#/app/list/{{list.id}}/item/{{item.id}}" class='editItem subtle-text icon ion-ios7-compose-outline' id="{{aisle.key}}item{{$index}}EditButton"></a>
+  				<a ng-href="#/app/list/{{list.id}}/item/{{item.id}}" class='editItem subtle-text icon ion-ios7-compose-outline' id="{{item.itemKey}}-EditButton"></a>
   			</ion-item>
 		</span>
 	</ion-list>	
