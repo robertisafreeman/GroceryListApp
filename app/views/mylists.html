@@ -6,14 +6,14 @@
   	<ion-list>
       <ion-item ng-href='#/app/list/0' class='item item-icon-left item-icon-right'>
         <i class="icon ion-ios7-infinite balanced"> </i> 
-        Master List
+        Combined List
         <i class='icon icon-accessory ion-chevron-right'></i>
       </ion-item>
       <list-item class="item item-divider item-icon-right" >
         Reusable Lists 
         <a ng-href="#/app/newlist" class='icon ion-plus-round balanced' id='addResuableList'></a>
       </list-item>
-  		<ion-item ng-hide="list.name == 'Master List' || !list" ng-click='addToMasterList($event, list)' ng-repeat="list in lists|orderBy:'name'" class='item item-icon-left item-icon-right'>
+  		<ion-item ng-if="list.id != 0 || !list" ng-click='addToMasterList($event, list)' ng-repeat="list in lists|orderBy:'name'" class='item item-icon-left item-icon-right'>
         <i class="icon ion-ios7-cart balanced" ng-show='list.include'> </i> 
         <i class="icon ion-ios7-cart-outline balanced" ng-hide='list.include'> </i> 
         <!-- <i class=" ion-ios7-infinite balanced icon" ng-click='editName(list, $event)'> </i>  -->
