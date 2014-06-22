@@ -52,7 +52,7 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 
 		});
 	};
-
+	$scope.isCombinedList = $scope.list.id === 0;
 	// Assigns our best location guess to an Aisle.
 	function aisleGuess(item){
 		var bestGuess = null;
@@ -61,7 +61,7 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 			if(remoteStore && remoteStore.items && remoteStore.items[itemKey]){
 				var remoteItem = remoteStore.items[itemKey];
 				Object.merge(item,
-					Object.reject(remoteStore.items[itemKey], ['qty', 'qtyType']),
+					Object.reject(remoteStore.items[itemKey], ['name', 'qty', 'qtyType']),
 					false
 				);
 				if(item.qtyType === 'qty'){
@@ -81,10 +81,10 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 				}
 			}
 			if(item.displayQty === 1){
-				item.name = item.name.singularize();
+				// item.name = item.name.singularize();
 				item.qtyType = item.qtyType.singularize();
 			} else {
-				item.name = item.name.pluralize();
+				// item.name = item.name.pluralize();
 				item.qtyType = item.qtyType.pluralize();
 			}
 		}
@@ -172,19 +172,34 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 	
 	// Marks an Item as found and requrest it's location from the user via the modal.
 	$scope.crossOff = function(item, e){
+		var that = this;
 		if(!$(e.target).hasClass('editItem')){
 			$scope.lastItem = item;
-			item.found = !item.found;
+			if($scope.list.id !== 0){ // If this is not combined list
+				item.found = !item.found;
+			} else { // If this is the combined list, wee need to check the item off of each
+				console.log('checking all lists');
+				Object.keys($scope.lists, function(listKey){
+					var list = $scope.lists[listKey];
+					console.log('found list', list);
+					var item = list.items.find(function(listItem){
+						console.log('looking at', listItem, that.item);
+						if(that.item && listItem && listItem.itemKey === that.item.itemKey && listItem.qtyType === that.item.qtyType){
+							console.log('Found item', listItem);
+							return listItem;
+						}
+					});
+					console.log('found item', item);
+					if(item){
+						item.found = !item.found;
+					}
+				});
+			}
 			if(item.found){
 				$scope.modal.show();
 			}
 		}
 	};
-
-
-	function keyFromName(name){
-		return name.toLowerCase().replace(/\s/g, '').singularize();
-	}
 	// New pop up to add an item to the list.
 	$scope.newItem = function(){
 		$ionicPopup.show({
@@ -203,7 +218,7 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 						$scope.newItemQty = '';
 					   	$scope.newItemName = '';
 						if(itemName){
-					 		itemName = itemName.trim().titleize().singularize();
+					 		itemName = itemName.trim().titleize();//.singularize();
 					 		for (var i = 0; i < $scope.list.items.length; i++) {
 					 			var it = $scope.list.items[i];
 					 			if(it && it.itemKey === keyGen.itemKey(itemName)){
