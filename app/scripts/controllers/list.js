@@ -5,8 +5,8 @@
 /* global List */
 angular.module('App.controllers')
 .controller('ListCtrl', 
-['$scope', 'storage', '$stateParams', '$ionicPopup', '$location', 'storageKeys', 'gmaps', '$ionicModal', 'database', '$timeout', '$interval',
-function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ionicModal, database, $timeout, $interval ) {
+['$scope', 'storage', '$stateParams', '$ionicPopup', '$location', 'storageKeys', 'gmaps', '$ionicModal', 'database', '$timeout', '$interval', 'keyGen',
+function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ionicModal, database, $timeout, $interval, keyGen ) {
 	// Initialize Lists
 	$scope.lists = storage.get(storageKeys.listsKey);
 	storage.bind($scope,'lists', {defaultValue: {}, storeName: storageKeys.listsKey});
@@ -18,7 +18,6 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 	var remoteStore;
 	if($scope.myLocation && $scope.myLocation.location){
 		remoteStore = database.store($scope.myLocation.location);
-		console.log('set manual location');
 	}
 	storage.bind($scope,'myLocation', 
 		{
@@ -113,6 +112,7 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 						items: [item]
 					};
 					item.displayQty = item.qty;
+					item.unfoundQty = item.found? 0: item.qty;
 					aisles.push(found[itemAisle]);
 				}
 				else{
@@ -121,6 +121,9 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 					found[itemAisle].items.forEach(function(itm){
 						if(itm.itemKey === item.itemKey && itm.qtyType === item.qtyType){
 							itm.displayQty += item.qty;
+							if(!item.found){
+								itm.unfoundQty += item.qty;
+							}
 							itemInList = true;
 						}
 					});
@@ -180,7 +183,7 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 
 
 	function keyFromName(name){
-		return name.toLowerCase().replace(/\s/g, '');
+		return name.toLowerCase().replace(/\s/g, '').singularize();
 	}
 	// New pop up to add an item to the list.
 	$scope.newItem = function(){
@@ -203,7 +206,7 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 					 		itemName = itemName.trim().titleize().singularize();
 					 		for (var i = 0; i < $scope.list.items.length; i++) {
 					 			var it = $scope.list.items[i];
-					 			if(it && it.itemKey === keyFromName(itemName)){
+					 			if(it && it.itemKey === keyGen.itemKey(itemName)){
 					 				if(confirm('{itemName} is already on the list, add {qty} to it?'.assign({itemName:itemName, qty: newItemQty}))){
 					 					it.qty = it.qty?it.qty:1;
 					 					it.qty += newItemQty;
@@ -220,7 +223,7 @@ function ($scope, storage, sp, $ionicPopup, $location, storageKeys, gmaps, $ioni
 					 			displayQty: newItemQty,
 					 			qtyType: '',
 					 			found:false,
-					 			itemKey: keyFromName(itemName)
+					 			itemKey: keyGen.itemKey(itemName)
 					 		};
 					   		$scope.list.items.push(item);
 					   		$scope.previousItems.unshift(item.name);

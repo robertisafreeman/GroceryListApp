@@ -11,7 +11,7 @@ function ($scope, storage, storageKeys, $ionicActionSheet, $location, $ionicPopu
 	
 	if(Object.keys($scope.lists).length === 0){
 		// Initialize the master list.
-		var list = new List({name: 'Master List', id:0});
+		var list = new List({name: 'Combined List', id:0});
 		$scope.lists[list.id] = list;
 	}
 
@@ -44,7 +44,7 @@ function ($scope, storage, storageKeys, $ionicActionSheet, $location, $ionicPopu
 		} 
 		$ionicActionSheet.show({
 			 buttons: [
-			   { text: (list.include?'Remove from':'Add to')+' Master List' },
+			   { text: (list.include?'Hide':'Show')+' in Combined List' },
 			   { text: 'Mark purchased'},
 			   { text: 'Mark unpurchased'},
 			   { text: 'Rename'},
