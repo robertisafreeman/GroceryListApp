@@ -13,6 +13,11 @@ function ($scope, storage, storageKeys, $ionicActionSheet, $location, $ionicPopu
 		// Initialize the master list.
 		var list = new List({name: 'Combined List', id:0});
 		$scope.lists[list.id] = list;
+
+		var miscList = new List({name: 'Misc Items', id: 1});
+		$scope.lists[miscList.id] = miscList;
+		console.log(miscList);
+
 	}
 
 	function renameList(list){
