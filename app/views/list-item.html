@@ -11,7 +11,7 @@
   		<!-- Item name -->
 		 <label class="item item-input">
 	        <span class="input-label text-right">Item Name:</span>
-	        <input type="text" ng-model='item.name' placeholder='Item Name'>
+	        <input type="text" ng-model='item.name' ng-change="updateItemKey(item)" placeholder='Item Name'>
 	      </label>
 		 <!-- Quantity -->
 		 <label class="item item-input">
