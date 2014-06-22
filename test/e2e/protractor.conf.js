@@ -19,7 +19,7 @@ exports.config = {
       var ptor = protractor.getInstance();
       browser.driver.manage().window().maximize();  
       // ptor.ignoreSynchronization = true;    
-      browser.driver.get('http://localhost:4400/?enableripple=cordova-3.0.0-iPhone5');
+      browser.driver.get('http://localhost:4400/?enableripple=cordova-3.0.0-Nexus4');
       browser.sleep(2000);
       browser.driver.switchTo().frame(0);
     }
