@@ -5,8 +5,12 @@
 <ion-nav-buttons side="right">
 	<a ng-click="goBack()"><button class="button button-icon icon ion-reply" id='backButton'></button></a>
  </ion-nav-buttons>
+
 <ion-content padding="true" class="has-header">
 	<div class="list">
+		<div class="item item-divider">
+		  Empty List
+		</div>
 		<label class="item item-input item-stacked-label">
 			<span class="input-label" >Enter List Name</span>
 			<input type="text" placeholder="Example: soccer snacks" ng-model="list.name">
@@ -14,6 +18,21 @@
 		<button class="button button-block button-balanced" id='createNewList' ng-click="createList()">
 			Create List
 		</button>
+		<div class="item item-divider">
+		  Import from Web Page
+		</div>
+		<label class="item item-input item-stacked-label">
+			<span class="input-label" >Enter page URL</span>
+			<input type="text" placeholder="http://recipe.com/chicken" ng-model="recipeURL">
+		</label>
+		<button class="button button-block button-calm" id='importListButton' ng-click="importRecipe(recipeURL)">
+			Import List
+		</button>
+		<label class='item'>
+			<iframe id='miniBrowser' src='http://www.example.com' width='300' height='300'>
+			</iframe>
+		</label>
+
 	</div>
 	
 </ion-content>
