@@ -8,22 +8,19 @@ var foodUnits = [
 	'ounces?',
 	'large',
 	'cans?',
-	'cloves?',
 	'slices?',
 	'small',
 	'buns?',
-	'wedges?'
+	'wedges?',
+	'slices?'
 ].join('|');
 angular.module('App.services')
   .service('itemMiner', function() {
-  	// First regex is for looking for the pattern when there all of the text is
+  	// First regex is for looking for the pattern when all of the text is
   	// on one line. When searching through the dom, the inner text is all
   	// compressed to one line, to avoid having to deal with strangely placed 
   	// new lines.
   	var ingredientRegex = new RegExp('((\\d+(\\s+)?((\\d+)?\\\/\\d+)?)[^\\d]+?(\\(.*?)?('+foodUnits+')+\\)?\\s+([^(\\d+(\\\/\\d+)?)])*)', 'gi');
-  	// This regex is cleaner and groups pieces of the line for practical use.
-  	var groupedRegex = new RegExp('(\\d+(?:\\.?\\d+)?(?:\\/\\d+)?)?(.*(?:'+foodUnits+'))?(.*)', 'i');
-
   	return {
   		pageExtraction: function(html){
   			var parser = new DOMParser(); // Dom parse
@@ -70,7 +67,15 @@ angular.module('App.services')
   			var items = []; // will hold the final list of ingredients
   			// loop through each line of the matches and parse them into groups.
   			guessedElement.matches.forEach(function(str){
-  				items.push(groupedRegex.exec(str));
+  				var item = {};
+  				// Extract qty from item.
+  				item.qty = /(\d+(?:\.)?(?:\s+)?(?:\d+)?(?:\s*\/\d+)?)/.exec(str)[1].trim();
+  				str = str.replace(item.qty, '').trim();
+  				// Extract quantity type from string
+  				item.qtyType = new RegExp('('+foodUnits+')').exec(str)[1].trim();
+  				str = str.replace(item.qtyType, '');
+  				item.name = str.trim();
+  				items.push(item);
   			});
   			return items;
   		}
