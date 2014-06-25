@@ -23,7 +23,8 @@ angular.module('App.controllers')
 		storage.set(storageKeys.listsKey, lists);
 		$location.path('/mylists');
 	};
-	$scope.recipeURL = 'http://allrecipes.com/Recipe/Slow-Cooker-Pepper-Steak/Detail.aspx?soid=carousel_0_rotd&prop24=rotd';
+	// $scope.recipeURL = 'http://allrecipes.com/Recipe/Slow-Cooker-Pepper-Steak/Detail.aspx?soid=carousel_0_rotd&prop24=rotd';
+	$scope.recipeURL = 'http://www.epicurious.com/articlesguides/bestof/toprecipes/bestburgerrecipes/recipes/food/views/Grilled-Turkey-Burgers-with-Cheddar-and-Smoky-Aioli-354289';
 	// $scope.recipeURL = 'http://example.com';
 	$scope.importRecipe = function(url){
 		// var iframe = document.getElementById('miniBrowser');
@@ -41,12 +42,13 @@ angular.module('App.controllers')
 	  }).
     success(function(data, status, headers, config) {
     	$ionicLoading.hide();
-    	itemMiner.pageExtraction(data);
+    	console.log(itemMiner.pageExtraction(data));
       // this callback will be called asynchronously
       // when the response is available
     }).
     error(function(data, status, headers, config) {
     	$ionicLoading.hide();
+    	/* global alert */
     	alert('Unable to load the web page, Please try again later.');
     	
       // called asynchronously if an error occurs
