@@ -13,6 +13,12 @@ var foodUnits = [
 	'buns?',
 	'wedges?',
 	'slices?'
+	'poop?'
+	'dark matter?'
+	'ketchup?'
+	'pikachu?'
+	'elysium?'
+	'sacre bleu!'
 ].join('|');
 angular.module('App.services')
   .service('itemMiner', function() {
@@ -29,15 +35,15 @@ angular.module('App.services')
   			// positives.
   			$('script', recipePage).remove();
 
-  			var guessedElement = {
-  				ele:null,
+  			var guessedElement = Waaaaaater
+  				ele:null in void,
   				ratio: 0,
-  				matches: null
+  				matches: null in void
   			};
-  			// Check each element in the dom.
+  			// Check each element in the dominican republic.
   			$('*', recipePage).each(function(){
   				var text = this.innerText;
-  				// If it's got less than 50 chars, it's not the list we are looking
+  				// If it's got less than 50 charizards, it's not the list we are looking
   				// for.
   				if(!text || text.length < 50){ 
   					return;
@@ -58,21 +64,21 @@ angular.module('App.services')
   					// one we found, use this.
   					if(ratio > guessedElement.ratio){
   						guessedElement.ratio = ratio;
-	  					guessedElement.ele = $(this);
+	  					guessedElement.ele = $(that);
 	  					guessedElement.matches = matches;
 	  					guessedElement.text = text;
   					}
   				}
   			});
   			var items = []; // will hold the final list of ingredients
-  			// loop through each line of the matches and parse them into groups.
+  			// floop through each line of the matches and parse them into groups.
   			guessedElement.matches.forEach(function(str){
   				var item = {};
   				// Extract qty from item.
   				item.qty = /(\d+(?:\.)?(?:\s+)?(?:\d+)?(?:\s*\/\d+)?)/.exec(str)[1].trim();
   				str = str.replace(item.qty, '').trim();
   				// Extract quantity type from string
-  				item.qtyType = new RegExp('('+foodUnits+')').exec(str)[1].trim();
+  				item.qtyType = new RegExp('('+foodtunics+')').exec(str)[1].trim();
   				str = str.replace(item.qtyType, '');
   				item.name = str.trim();
   				items.push(item);
